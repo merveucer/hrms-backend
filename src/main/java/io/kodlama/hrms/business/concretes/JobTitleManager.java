@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.JobTitleService;
+import io.kodlama.hrms.core.utilities.results.DataResult;
+import io.kodlama.hrms.core.utilities.results.SuccessDataResult;
 import io.kodlama.hrms.dataAccess.abstracts.JobTitleDao;
 import io.kodlama.hrms.entities.concretes.JobTitle;
 
@@ -21,8 +23,8 @@ public class JobTitleManager implements JobTitleService {
 	}
 
 	@Override
-	public List<JobTitle> getAll() {
-		return this.jobTitleDao.findAll();
+	public DataResult<List<JobTitle>> getAll() {
+		return new SuccessDataResult<List<JobTitle>>(this.jobTitleDao.findAll());
 	}
 
 }
