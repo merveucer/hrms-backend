@@ -26,47 +26,49 @@ public class JobTitleManager implements JobTitleService {
 
 	@Override
 	public Result add(JobTitle jobTitle) {
-		
-		if(!checkIfJobTitleExists(jobTitle.getTitle())) {
-			this.jobTitleDao.save(jobTitle);
-			return new SuccessResult("İş pozisyonu eklendi.");
+
+		if (checkIfJobTitleExists(jobTitle.getTitle())) {
+			return new ErrorResult("Eklemek istediğiniz iş pozisyonu zaten mevcut.");
 		}
-		
-		return new ErrorResult("Eklemek istediğiniz iş pozisyonu zaten mevcut.");		
+
+		jobTitleDao.save(jobTitle);
+		return new SuccessResult("İş pozisyonu eklendi.");
 	}
 
 	@Override
 	public Result update(JobTitle jobTitle) {
-		this.jobTitleDao.save(jobTitle);
+		
+		jobTitleDao.save(jobTitle);
 		return new SuccessResult("İş pozisyonu güncellendi.");
 	}
 
 	@Override
 	public Result delete(JobTitle jobTitle) {
-		this.jobTitleDao.delete(jobTitle);
+
+		jobTitleDao.delete(jobTitle);
 		return new SuccessResult("İş pozisyonu silindi.");
 	}
-	
+
 	@Override
 	public DataResult<List<JobTitle>> getAll() {
-		return new SuccessDataResult<List<JobTitle>>(this.jobTitleDao.findAll());
+		return new SuccessDataResult<List<JobTitle>>(jobTitleDao.findAll());
 	}
 
 	@Override
 	public DataResult<JobTitle> getById(int id) {
-		return new SuccessDataResult<JobTitle>(this.jobTitleDao.getById(id));
+		return new SuccessDataResult<JobTitle>(jobTitleDao.getById(id));
 	}
-	
-	public boolean checkIfJobTitleExists(String title) {
-		
+
+	private boolean checkIfJobTitleExists(String title) {
+
 		boolean result = false;
-		
+
 		for (JobTitle jobTitle : getAll().getData()) {
 			if (jobTitle.getTitle() == title) {
 				result = true;
 			}
 		}
-		
+
 		return result;
 	}
 
