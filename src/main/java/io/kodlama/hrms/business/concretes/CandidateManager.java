@@ -34,23 +34,18 @@ public class CandidateManager implements CandidateService {
 
 	@Override
 	public Result add(Candidate candidate) {
-
-		if (checkIfNullField(candidate)) {
-			return new ErrorResult("Lütfen boş alanları doldurunuz.");
-		}
-
+		
 		if (!userCheckService.checkIfRealPerson(candidate.getIdentityNumber(), candidate.getFirstName(),
 				candidate.getLastName(), candidate.getYearOfBirth())) {
 			return new ErrorResult("Lütfen bilgilerinizi doğru giriniz.");
 		}
 
-		if (checkIfIdentityNumberExists(candidate.getIdentityNumber())) {
+		if (!checkIfIdentityNumberExists(candidate.getIdentityNumber())) {
 			return new ErrorResult("Girilen kimlik numarası başka bir hesaba aittir.");
 		}
 		
 		candidateDao.save(candidate);
-		userActivationService.add(new UserActivation(candidate));
-		return new SuccessResult("Aktivasyon kodu gönderildi.");
+		return userActivationService.add(new UserActivation(candidate));
 	}
 
 	@Override
@@ -76,6 +71,11 @@ public class CandidateManager implements CandidateService {
 	}
 	
 	@Override
+	public DataResult<Candidate> getByIdentityNumber(String identityNumber) {
+		return new SuccessDataResult<Candidate>(candidateDao.getByIdentityNumber(identityNumber));
+	}
+	
+	@Override
 	public Result activate(UserActivation userActivation) {
 		
 		userActivation.setActivated(true);
@@ -85,27 +85,12 @@ public class CandidateManager implements CandidateService {
 		return new SuccessResult("Üyelik işlemleri tamamlanmıştır.");
 	}
 
-	private boolean checkIfNullField(Candidate candidate) {
-
-		boolean result = false;
-
-		if (candidate.getEmail() == null || candidate.getPassword() == null || candidate.getFirstName() == null
-				|| candidate.getLastName() == null || candidate.getIdentityNumber() == null
-				|| candidate.getYearOfBirth() == 0) {
-			result = true;
-		}
-
-		return result;
-	}
-
 	private boolean checkIfIdentityNumberExists(String identityNumber) {
 
 		boolean result = false;
 
-		for (Candidate candidate : getAll().getData()) {
-			if (candidate.getIdentityNumber() == identityNumber) {
-				result = true;
-			}
+		if (getByIdentityNumber(identityNumber).getData() == null) {
+			result = true;
 		}
 
 		return result;

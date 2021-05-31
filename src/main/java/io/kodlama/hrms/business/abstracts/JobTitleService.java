@@ -17,5 +17,7 @@ public interface JobTitleService {
 	DataResult<List<JobTitle>> getAll();
 	
 	DataResult<JobTitle> getById(int id);
+	
+	DataResult<JobTitle> getByTitle(String title);
 
 }

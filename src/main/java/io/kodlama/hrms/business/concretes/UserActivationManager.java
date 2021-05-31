@@ -33,8 +33,7 @@ public class UserActivationManager implements UserActivationService {
 		userActivation.setIsActivatedDate(LocalDate.now());
 		
 		userActivationDao.save(userActivation);
-		emailService.sendEmail(userActivation.getUser());
-		return new SuccessResult();
+		return emailService.sendEmail(userActivation.getUser());
 	}
 	
 	@Override

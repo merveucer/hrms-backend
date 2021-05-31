@@ -19,6 +19,8 @@ public interface CandidateService {
 	
 	DataResult<Candidate> getById(int id);
 	
+	DataResult<Candidate> getByIdentityNumber(String identityNumber);
+	
 	Result activate(UserActivation userActivation);
 
 }

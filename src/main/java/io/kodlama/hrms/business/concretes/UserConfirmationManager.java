@@ -30,19 +30,13 @@ public class UserConfirmationManager implements UserConfirmationService {
 		
 		userConfirmation.setIsConfirmedDate(LocalDate.now());
 		
+		userConfirmationDao.save(userConfirmation);
+		emailService.sendEmail(userConfirmation.getUser());
+		
 		if (userConfirmation.isConfirmed() == false) {
-			
-			userConfirmation.setConfirmed(false);
-			
-			userConfirmationDao.save(userConfirmation);
-			emailService.sendEmail(userConfirmation.getUser());
 			return new ErrorResult("Üyelik onaylanmadı.");
 		}
 		
-		userConfirmation.setConfirmed(true);
-		
-		userConfirmationDao.save(userConfirmation);
-		emailService.sendEmail(userConfirmation.getUser());
 		return new SuccessResult("Üyelik onaylandı.");	
 	}
 

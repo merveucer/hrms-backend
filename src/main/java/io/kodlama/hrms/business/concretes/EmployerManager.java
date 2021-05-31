@@ -37,8 +37,7 @@ public class EmployerManager implements EmployerService {
 		}
 		
 		employerDao.save(employer);
-		userActivationService.add(new UserActivation(employer));
-		return new SuccessResult("Aktivasyon kodu gönderildi.");
+		return userActivationService.add(new UserActivation(employer));
 	}
 	
 	@Override

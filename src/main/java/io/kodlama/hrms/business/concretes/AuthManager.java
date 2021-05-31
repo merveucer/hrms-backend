@@ -14,7 +14,6 @@ import io.kodlama.hrms.core.utilities.results.ErrorResult;
 import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.entities.concretes.Candidate;
 import io.kodlama.hrms.entities.concretes.Employer;
-import io.kodlama.hrms.entities.concretes.User;
 
 @Service
 public class AuthManager implements AuthService {
@@ -37,8 +36,12 @@ public class AuthManager implements AuthService {
 			return new ErrorResult("Lütfen geçerli bir e-posta adresi giriniz.");
 		}
 
-		if (checkIfEmailExists(candidate.getEmail())) {
+		if (!checkIfEmailExists(candidate.getEmail())) {
 			return new ErrorResult("Girilen e-posta adresi başka bir hesaba aittir.");
+		}
+		
+		if (!checkIfPasswordIsNull(candidate.getPassword())) {
+			return new ErrorResult("Lütfen boş alanları doldurunuz.");
 		}
 
 		if (!checkIfPasswordsMatch(candidate.getPassword(), confirmPassword)) {
@@ -55,8 +58,12 @@ public class AuthManager implements AuthService {
 			return new ErrorResult("Lütfen geçerli bir e-posta adresi giriniz.");
 		}
 
-		if (checkIfEmailExists(employer.getEmail())) {
+		if (!checkIfEmailExists(employer.getEmail())) {
 			return new ErrorResult("Girilen e-posta adresi başka bir hesaba aittir.");
+		}
+		
+		if (!checkIfPasswordIsNull(employer.getPassword())) {
+			return new ErrorResult("Lütfen boş alanları doldurunuz.");
 		}
 
 		if (!checkIfPasswordsMatch(employer.getPassword(), confirmPassword)) {
@@ -78,12 +85,21 @@ public class AuthManager implements AuthService {
 
 		boolean result = false;
 
-		for (User user : userService.getAll().getData()) {
-			if (user.getEmail() == email) {
-				result = true;
-			}
+		if (userService.getByEmail(email).getData() == null) {
+			result = true;
 		}
 
+		return result;
+	}
+	
+	private boolean checkIfPasswordIsNull(String password) {
+		
+		boolean result = false;
+		
+		if (password != null) {
+			result = true;
+		}
+		
 		return result;
 	}
 

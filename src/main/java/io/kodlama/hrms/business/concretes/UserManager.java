@@ -31,4 +31,9 @@ public class UserManager implements UserService {
 		return new SuccessDataResult<User>(userDao.getById(id));
 	}
 
+	@Override
+	public DataResult<User> getByEmail(String email) {
+		return new SuccessDataResult<User>(userDao.getByEmail(email));
+	}
+
 }

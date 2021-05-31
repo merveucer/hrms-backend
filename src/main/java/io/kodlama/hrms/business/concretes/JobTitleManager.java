@@ -63,13 +63,16 @@ public class JobTitleManager implements JobTitleService {
 
 		boolean result = false;
 
-		for (JobTitle jobTitle : getAll().getData()) {
-			if (jobTitle.getTitle() == title) {
-				result = true;
-			}
+		if (getByTitle(title).getData() == null) {
+			result = true;
 		}
 
 		return result;
+	}
+
+	@Override
+	public DataResult<JobTitle> getByTitle(String title) {
+		return new SuccessDataResult<JobTitle>(jobTitleDao.getByTitle(title));
 	}
 
 }
