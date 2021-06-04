@@ -28,27 +28,27 @@ public class JobTitlesController {
 
 	@PostMapping("/add")
 	public Result add(@RequestBody JobTitle jobTitle) {
-		return this.jobTitleService.add(jobTitle);
+		return jobTitleService.add(jobTitle);
 	}
 
 	@PostMapping("/update")
 	public Result update(@RequestBody JobTitle jobTitle) {
-		return this.jobTitleService.update(jobTitle);
+		return jobTitleService.update(jobTitle);
 	}
 
 	@PostMapping("/delete")
 	public Result delete(@RequestBody JobTitle jobTitle) {
-		return this.jobTitleService.delete(jobTitle);
+		return jobTitleService.delete(jobTitle);
 	}
 
 	@GetMapping("/getAll")
 	public DataResult<List<JobTitle>> getAll() {
-		return this.jobTitleService.getAll();
+		return jobTitleService.getAll();
 	}
 
 	@GetMapping("/getById")
 	public DataResult<JobTitle> getById(@RequestParam int id) {
-		return this.jobTitleService.getById(id);
+		return jobTitleService.getById(id);
 	}
 
 }

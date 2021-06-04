@@ -26,7 +26,7 @@ public class CandidatesController {
 
 	@GetMapping("/getAll")
 	public DataResult<List<Candidate>> getAll() {
-		return this.candidateService.getAll();
+		return candidateService.getAll();
 	}
 	
 	@PostMapping("/activate")
