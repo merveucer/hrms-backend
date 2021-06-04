@@ -30,5 +30,8 @@ public class Candidate extends User {
 	
 	@Column(name = "year_of_birth")
 	private int yearOfBirth;
+	
+	@Column(name = "is_activated")
+	private boolean isActivated;
 
 }

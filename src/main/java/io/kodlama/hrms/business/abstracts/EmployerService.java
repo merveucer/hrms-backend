@@ -5,7 +5,6 @@ import java.util.List;
 import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.entities.concretes.Employer;
-import io.kodlama.hrms.entities.concretes.UserActivation;
 
 public interface EmployerService {
 	
@@ -19,6 +18,10 @@ public interface EmployerService {
 	
 	DataResult<Employer> getById(int id);
 	
-	Result activate(UserActivation userActivation);
+	DataResult<List<Employer>> getByIsActivatedAndIsConfirmed(boolean isActivated, boolean isConfirmed);
+	
+	Result activate(String code);
+	
+	Result confirm(Integer employerId, Integer companyStaffId, boolean isConfirmed);
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.entities.concretes.Candidate;
-import io.kodlama.hrms.entities.concretes.UserActivation;
 
 public interface CandidateService {
 	
@@ -21,6 +20,6 @@ public interface CandidateService {
 	
 	DataResult<Candidate> getByIdentityNumber(String identityNumber);
 	
-	Result activate(UserActivation userActivation);
+	Result activate(String code);
 
 }

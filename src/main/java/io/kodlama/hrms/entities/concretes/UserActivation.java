@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "user" })
 @Table(name = "user_activations")
 public class UserActivation{
 	
@@ -29,9 +32,6 @@ public class UserActivation{
 	
 	@Column(name = "code")
 	private String code;
-	
-	@Column(name = "is_activated")
-	private boolean isActivated;
 	
 	@Column(name = "is_activated_date")
 	private LocalDate isActivatedDate;

@@ -6,27 +6,35 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.kodlama.hrms.business.abstracts.CompanyStaffService;
 import io.kodlama.hrms.business.abstracts.EmployerService;
 import io.kodlama.hrms.business.abstracts.UserActivationService;
+import io.kodlama.hrms.business.abstracts.UserConfirmationService;
 import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.ErrorResult;
 import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.core.utilities.results.SuccessDataResult;
 import io.kodlama.hrms.core.utilities.results.SuccessResult;
 import io.kodlama.hrms.dataAccess.abstracts.EmployerDao;
+import io.kodlama.hrms.entities.concretes.CompanyStaff;
 import io.kodlama.hrms.entities.concretes.Employer;
 import io.kodlama.hrms.entities.concretes.UserActivation;
+import io.kodlama.hrms.entities.concretes.UserConfirmation;
 
 @Service
 public class EmployerManager implements EmployerService {
 	
 	private EmployerDao employerDao;
 	private UserActivationService userActivationService;
+	private UserConfirmationService userConfirmationService;
+	private CompanyStaffService companyStaffService;
 	
 	@Autowired
-	public EmployerManager(EmployerDao employerDao,	UserActivationService userActivationService) {
+	public EmployerManager(EmployerDao employerDao,	UserActivationService userActivationService, UserConfirmationService userConfirmationService, CompanyStaffService companyStaffService) {
 		this.employerDao = employerDao;
 		this.userActivationService = userActivationService;
+		this.userConfirmationService = userConfirmationService;
+		this.companyStaffService = companyStaffService;
 	}
 
 	@Override
@@ -36,6 +44,7 @@ public class EmployerManager implements EmployerService {
 			return new ErrorResult("Web adresi ile e-posta aynı alan adına sahip olmalıdır.");
 		}
 		
+		employer.setActivated(false);
 		employerDao.save(employer);
 		return userActivationService.add(new UserActivation(employer));
 	}
@@ -64,13 +73,41 @@ public class EmployerManager implements EmployerService {
 	}
 	
 	@Override
-	public Result activate(UserActivation userActivation) {
+	public DataResult<List<Employer>> getByIsActivatedAndIsConfirmed(boolean isActivated, boolean isConfirmed) {
+		return new SuccessDataResult<List<Employer>>(employerDao.getByIsActivatedAndIsConfirmed(isActivated, isConfirmed));
+	}
+	
+	@Override
+	public Result activate(String code) {
+		
+		UserActivation userActivation = userActivationService.getByCode(code).getData();
+		
+		if (userActivation == null) {
+			return new ErrorResult("Geçersiz bir kod girdiniz.");
+		}
 
-		userActivation.setActivated(true);
+		getById(userActivation.getUser().getId()).getData().setActivated(true);
 		userActivation.setIsActivatedDate(LocalDate.now());
 		
 		userActivationService.update(userActivation);
 		return new SuccessResult("Üyeliğiniz onay aşamasındadır.");
+	}
+	
+	@Override
+	public Result confirm(Integer employerId, Integer companyStaffId, boolean isConfirmed) {
+		
+		Employer employer =  getById(employerId).getData();
+		CompanyStaff companyStaff = companyStaffService.getById(companyStaffId).getData();
+		
+		if (isConfirmed == false) {
+			userActivationService.delete(userActivationService.getByUser(employer).getData());
+			delete(employer);
+			return new ErrorResult("Üyelik onaylanmadı.");
+		}
+		
+		employer.setConfirmed(isConfirmed);
+		userConfirmationService.add(new UserConfirmation(employer, companyStaff));
+		return new SuccessResult("Üyelik onaylandı.");
 	}
 	
 	private boolean checkIfDomainsMatch(String webAddress, String email) {

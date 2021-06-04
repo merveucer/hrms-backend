@@ -44,18 +44,21 @@ public class CandidateManager implements CandidateService {
 			return new ErrorResult("Girilen kimlik numarası başka bir hesaba aittir.");
 		}
 		
+		candidate.setActivated(false);
 		candidateDao.save(candidate);
 		return userActivationService.add(new UserActivation(candidate));
 	}
 
 	@Override
 	public Result update(Candidate candidate) {
+		
 		candidateDao.save(candidate);
 		return new SuccessResult();
 	}
 
 	@Override
 	public Result delete(Candidate candidate) {
+		
 		candidateDao.delete(candidate);
 		return new SuccessResult();
 	}
@@ -76,12 +79,18 @@ public class CandidateManager implements CandidateService {
 	}
 	
 	@Override
-	public Result activate(UserActivation userActivation) {
+	public Result activate(String code) {
 		
-		userActivation.setActivated(true);
+		UserActivation userActivation = userActivationService.getByCode(code).getData();
+		
+		if (userActivation == null) {
+			return new ErrorResult("Geçersiz bir kod girdiniz.");
+		}
+		
+		getById(userActivation.getUser().getId()).getData().setActivated(true);
 		userActivation.setIsActivatedDate(LocalDate.now());
 		
-		userActivationService.update(userActivation);
+		userActivationService.update(userActivationService.getByCode(code).getData());
 		return new SuccessResult("Üyelik işlemleri tamamlanmıştır.");
 	}
 
