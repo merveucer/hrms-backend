@@ -35,8 +35,7 @@ public class CandidateManager implements CandidateService {
 	@Override
 	public Result add(Candidate candidate) {
 		
-		if (!userCheckService.checkIfRealPerson(candidate.getIdentityNumber(), candidate.getFirstName(),
-				candidate.getLastName(), candidate.getYearOfBirth())) {
+		if (!userCheckService.checkIfRealPerson(candidate.getIdentityNumber(), candidate.getFirstName(), candidate.getLastName(), candidate.getYearOfBirth())) {
 			return new ErrorResult("Lütfen bilgilerinizi doğru giriniz.");
 		}
 
@@ -45,6 +44,7 @@ public class CandidateManager implements CandidateService {
 		}
 		
 		candidate.setActivated(false);
+		
 		candidateDao.save(candidate);
 		return userActivationService.add(new UserActivation(candidate));
 	}
@@ -87,10 +87,13 @@ public class CandidateManager implements CandidateService {
 			return new ErrorResult("Geçersiz bir kod girdiniz.");
 		}
 		
-		getById(userActivation.getUser().getId()).getData().setActivated(true);
+	    Candidate candidate = getById(userActivation.getUser().getId()).getData();
+		
+		candidate.setActivated(true);
 		userActivation.setIsActivatedDate(LocalDate.now());
 		
-		userActivationService.update(userActivationService.getByCode(code).getData());
+		update(candidate);
+		userActivationService.update(userActivation);
 		return new SuccessResult("Üyelik işlemleri tamamlanmıştır.");
 	}
 

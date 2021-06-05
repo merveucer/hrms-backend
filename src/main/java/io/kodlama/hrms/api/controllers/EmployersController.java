@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.kodlama.hrms.business.abstracts.EmployerService;
@@ -29,6 +30,11 @@ public class EmployersController {
 		return employerService.getAll();
 	}
 	
+	@GetMapping("getById")
+	public DataResult<Employer> getById(@RequestParam int id) {
+		return employerService.getById(id);
+	}
+	
 	@GetMapping("/getByIsActivatedAndIsConfirmed")
 	public DataResult<List<Employer>> getByIsActivatedAndIsConfirmed(boolean isActivated, boolean isConfirmed) {
 		return employerService.getByIsActivatedAndIsConfirmed(isActivated, isConfirmed);
@@ -40,7 +46,7 @@ public class EmployersController {
 	}
 	
 	@PostMapping("/confirm")
-	public Result confirm(Integer employerId, Integer companyStaffId, boolean isConfirmed) {
+	public Result confirm(int employerId, int companyStaffId, boolean isConfirmed) {
 		return employerService.confirm(employerId, companyStaffId, isConfirmed);
 	}
 

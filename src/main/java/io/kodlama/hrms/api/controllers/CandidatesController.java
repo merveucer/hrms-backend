@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.kodlama.hrms.business.abstracts.CandidateService;
@@ -27,6 +28,11 @@ public class CandidatesController {
 	@GetMapping("/getAll")
 	public DataResult<List<Candidate>> getAll() {
 		return candidateService.getAll();
+	}
+	
+	@GetMapping("getById")
+	public DataResult<Candidate> getById(@RequestParam int id) {
+		return candidateService.getById(id);
 	}
 	
 	@PostMapping("/activate")
