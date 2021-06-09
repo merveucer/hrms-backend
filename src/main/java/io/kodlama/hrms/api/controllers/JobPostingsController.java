@@ -52,19 +52,19 @@ public class JobPostingsController {
 		return jobPostingService.getById(id);
 	}
 	
-	@GetMapping("/getActiveJobPostingDetails")
-	public DataResult<List<JobPostingWithEmployerAndJobTitleDto>> getActiveJobPostingDetails() {
-		return jobPostingService.getActiveJobPostingDetails();
+	@GetMapping("/getAllActiveJobPostingDetails")
+	public DataResult<List<JobPostingWithEmployerAndJobTitleDto>> getAllActiveJobPostingDetails() {
+		return jobPostingService.getAllActiveJobPostingDetails();
 	}
 	
-	@GetMapping("/getActiveJobPostingDetailsSortedByPostingDate")
-	public DataResult<List<JobPostingWithEmployerAndJobTitleDto>> getActiveJobPostingDetailsSortedByPostingDate() {
-		return jobPostingService.getActiveJobPostingDetailsSortedByPostingDate();
+	@GetMapping("/getAllActiveJobPostingDetailsSortedByPostingDate")
+	public DataResult<List<JobPostingWithEmployerAndJobTitleDto>> getAllActiveJobPostingDetailsSortedByPostingDate() {
+		return jobPostingService.getAllActiveJobPostingDetailsSortedByPostingDate();
 	}
 	
-	@GetMapping("/getActiveJobPostingDetailsByEmployerId")
-	public DataResult<List<JobPostingWithEmployerAndJobTitleDto>> getActiveJobPostingDetailsByEmployerId(int employerId) {
-		return jobPostingService.getActiveJobPostingDetailsByEmployerId(employerId);
+	@GetMapping("/getAllActiveJobPostingDetailsByCompanyName")
+	public DataResult<List<JobPostingWithEmployerAndJobTitleDto>> getAllActiveJobPostingDetailsByCompanyName(String companyName) {
+		return jobPostingService.getAllActiveJobPostingDetailsByCompanyName(companyName);
 	}
 
 }
