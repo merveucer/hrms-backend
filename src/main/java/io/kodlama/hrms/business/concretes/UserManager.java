@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.UserService;
+import io.kodlama.hrms.core.dataAccess.UserDao;
+import io.kodlama.hrms.core.entities.User;
 import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.SuccessDataResult;
-import io.kodlama.hrms.dataAccess.abstracts.UserDao;
-import io.kodlama.hrms.entities.concretes.User;
 
 @Service
 public class UserManager implements UserService {

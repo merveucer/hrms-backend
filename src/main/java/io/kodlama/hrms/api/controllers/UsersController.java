@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.kodlama.hrms.business.abstracts.UserService;
+import io.kodlama.hrms.core.entities.User;
 import io.kodlama.hrms.core.utilities.results.DataResult;
-import io.kodlama.hrms.entities.concretes.User;
 
 @RestController
 @RequestMapping("/api/users")
@@ -31,11 +31,6 @@ public class UsersController {
 	@GetMapping("/getById")
 	public DataResult<User> getById(@RequestParam int id) {
 		return userService.getById(id);
-	}
-	
-	@GetMapping("/getByEmail")
-	public DataResult<User> getByEmail(@RequestParam String email) {
-		return userService.getByEmail(email);
 	}
 
 }

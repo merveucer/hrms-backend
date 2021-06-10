@@ -114,6 +114,7 @@ public class EmployerManager implements EmployerService {
 		
 		employer.setConfirmed(isConfirmed);
 		
+		update(employer);
 		userConfirmationService.add(new UserConfirmation(employer, companyStaff));
 		return new SuccessResult("Üyelik onaylandı.");
 	}
