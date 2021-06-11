@@ -35,7 +35,7 @@ public class CandidateManager implements CandidateService {
 	@Override
 	public Result add(Candidate candidate) {
 		
-		if (!userCheckService.checkIfRealPerson(candidate.getIdentityNumber(), candidate.getFirstName(), candidate.getLastName(), candidate.getYearOfBirth())) {
+		if (!userCheckService.checkIfRealPerson(candidate.getIdentityNumber(), candidate.getFirstName(), candidate.getLastName(), candidate.getDateOfBirth().getYear())) {
 			return new ErrorResult("Lütfen bilgilerinizi doğru giriniz.");
 		}
 
@@ -53,14 +53,14 @@ public class CandidateManager implements CandidateService {
 	public Result update(Candidate candidate) {
 		
 		candidateDao.save(candidate);
-		return new SuccessResult();
+		return new SuccessResult("İş arayan güncellendi.");
 	}
 
 	@Override
 	public Result delete(Candidate candidate) {
 		
 		candidateDao.delete(candidate);
-		return new SuccessResult();
+		return new SuccessResult("İş arayan silindi.");
 	}
 
 	@Override

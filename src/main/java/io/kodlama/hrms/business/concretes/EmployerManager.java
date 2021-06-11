@@ -55,14 +55,14 @@ public class EmployerManager implements EmployerService {
 	public Result update(Employer employer) {
 		
 		employerDao.save(employer);
-		return new SuccessResult();
+		return new SuccessResult("İş veren güncellendi.");
 	}
 
 	@Override
 	public Result delete(Employer employer) {
 		
 		employerDao.delete(employer);
-		return new SuccessResult();
+		return new SuccessResult("İş veren silindi.");
 	}
 
 
