@@ -6,17 +6,7 @@ import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.entities.concretes.Employer;
 
-public interface EmployerService {
-	
-	Result add(Employer employer);
-	
-	Result update(Employer employer);
-	
-	Result delete(Employer employer);
-	
-	DataResult<List<Employer>> getAll();
-	
-	DataResult<Employer> getById(int id);
+public interface EmployerService extends BaseEntityService<Employer> {
 	
 	DataResult<List<Employer>> getByIsActivatedAndIsConfirmed(boolean isActivated, boolean isConfirmed);
 	
