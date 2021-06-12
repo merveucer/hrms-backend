@@ -1,4 +1,4 @@
-package io.kodlama.hrms.business.adapters;
+package io.kodlama.hrms.business.adapters.mernis;
 
 import java.rmi.RemoteException;
 
@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy;
 
 @Service
-public class MernisServiceAdapter implements UserCheckService {
+public class MernisServiceAdapter /*implements UserCheckService*/ {
 
-	@Override
+	/*@Override*/
 	public boolean checkIfRealPerson(String identityNumber, String firstName, String lastName, int yearOfBirth) {
 
 		KPSPublicSoapProxy kpsPublicSoapProxy = new KPSPublicSoapProxy();

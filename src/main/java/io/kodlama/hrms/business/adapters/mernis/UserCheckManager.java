@@ -1,4 +1,4 @@
-package io.kodlama.hrms.business.adapters;
+package io.kodlama.hrms.business.adapters.mernis;
 
 import org.springframework.stereotype.Service;
 

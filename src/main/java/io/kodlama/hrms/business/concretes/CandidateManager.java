@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.CandidateService;
 import io.kodlama.hrms.business.abstracts.UserActivationService;
-import io.kodlama.hrms.business.adapters.UserCheckService;
+import io.kodlama.hrms.business.adapters.mernis.UserCheckService;
 import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.ErrorResult;
 import io.kodlama.hrms.core.utilities.results.Result;
