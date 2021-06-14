@@ -8,7 +8,7 @@ import io.kodlama.hrms.entities.concretes.Employer;
 
 public interface EmployerService extends BaseEntityService<Employer> {
 	
-	DataResult<List<Employer>> getByIsActivatedAndIsConfirmed(boolean isActivated, boolean isConfirmed);
+	DataResult<List<Employer>> getAllByIsActivatedAndIsConfirmed(boolean isActivated, boolean isConfirmed);
 	
 	Result activate(String code);
 	

@@ -36,8 +36,8 @@ public class EmployersController {
 	}
 	
 	@GetMapping("/getByIsActivatedAndIsConfirmed")
-	public DataResult<List<Employer>> getByIsActivatedAndIsConfirmed(boolean isActivated, boolean isConfirmed) {
-		return employerService.getByIsActivatedAndIsConfirmed(isActivated, isConfirmed);
+	public DataResult<List<Employer>> getAllByIsActivatedAndIsConfirmed(boolean isActivated, boolean isConfirmed) {
+		return employerService.getAllByIsActivatedAndIsConfirmed(isActivated, isConfirmed);
 	}
 	
 	@PostMapping("/activate")
