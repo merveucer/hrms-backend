@@ -53,12 +53,12 @@ public class ResumesController {
 	}
 
 	@PostMapping("/addCoverLetterToResume")
-	public Result addCoverLetterToResume(int resumeId, int coverLetterId) {
+	public Result addCoverLetterToResume(@RequestParam int resumeId, @RequestParam int coverLetterId) {
 		return resumeService.addCoverLetterToResume(resumeId, coverLetterId);
 	}
 
 	@GetMapping("/getResumeDetailsByCandidateId")
-	public DataResult<ResumeWithAllRelatedEntitiesDto> getResumeDetailsByCandidateId(int candidateId) {
+	public DataResult<ResumeWithAllRelatedEntitiesDto> getResumeDetailsByCandidateId(@RequestParam int candidateId) {
 		return resumeService.getResumeDetailsByCandidateId(candidateId);
 	}
 

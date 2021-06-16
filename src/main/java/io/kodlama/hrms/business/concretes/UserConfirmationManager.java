@@ -17,38 +17,38 @@ import io.kodlama.hrms.entities.concretes.UserConfirmation;
 
 @Service
 public class UserConfirmationManager implements UserConfirmationService {
-	
+
 	private UserConfirmationDao userConfirmationDao;
 	private EmailService emailService;
-	
+
 	@Autowired
 	public UserConfirmationManager(UserConfirmationDao userConfirmationDao, EmailService emailService) {
 		this.userConfirmationDao = userConfirmationDao;
 		this.emailService = emailService;
 	}
-	
+
 	@Override
 	public Result add(UserConfirmation userConfirmation) {
-	
+
 		userConfirmation.setIsConfirmedDate(LocalDate.now());
-		
+
 		userConfirmationDao.save(userConfirmation);
 		emailService.sendEmail(userConfirmation.getUser());
-		return new SuccessResult();	
+		return new SuccessResult();
 	}
-	
+
 	@Override
 	public Result update(UserConfirmation userConfirmation) {
-		
+
 		userConfirmationDao.save(userConfirmation);
-		return new SuccessResult();	
+		return new SuccessResult();
 	}
 
 	@Override
 	public Result delete(UserConfirmation userConfirmation) {
-		
+
 		userConfirmationDao.delete(userConfirmation);
-		return new SuccessResult();	
+		return new SuccessResult();
 	}
 
 	@Override

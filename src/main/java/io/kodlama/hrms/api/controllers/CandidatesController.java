@@ -29,14 +29,14 @@ public class CandidatesController {
 	public DataResult<List<Candidate>> getAll() {
 		return candidateService.getAll();
 	}
-	
+
 	@GetMapping("getById")
 	public DataResult<Candidate> getById(@RequestParam int id) {
 		return candidateService.getById(id);
 	}
-	
+
 	@PostMapping("/activate")
-	public Result activate(String code) {
+	public Result activate(@RequestParam String code) {
 		return candidateService.activate(code);
 	}
 

@@ -25,21 +25,21 @@ public class SkillManager implements SkillService {
 
 	@Override
 	public Result add(Skill skill) {
-		
+
 		skillDao.save(skill);
 		return new SuccessResult("Yetenek eklendi.");
 	}
 
 	@Override
 	public Result update(Skill skill) {
-		
+
 		skillDao.save(skill);
 		return new SuccessResult("Yetenek güncellendi.");
 	}
 
 	@Override
 	public Result delete(Skill skill) {
-		
+
 		skillDao.delete(skill);
 		return new SuccessResult("Yetenek silindi.");
 	}

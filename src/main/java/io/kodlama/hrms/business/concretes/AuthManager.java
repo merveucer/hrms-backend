@@ -64,7 +64,7 @@ public class AuthManager implements AuthService {
 
 		return result;
 	}
-	
+
 	private boolean checkIfPasswordsMatch(String password, String confirmPassword) {
 
 		boolean result = false;

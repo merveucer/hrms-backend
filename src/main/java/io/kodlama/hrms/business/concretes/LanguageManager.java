@@ -25,21 +25,21 @@ public class LanguageManager implements LanguageService {
 
 	@Override
 	public Result add(Language language) {
-		
+
 		languageDao.save(language);
 		return new SuccessResult("Dil eklendi.");
 	}
 
 	@Override
 	public Result update(Language language) {
-		
+
 		languageDao.save(language);
 		return new SuccessResult("Dil güncellendi.");
 	}
 
 	@Override
 	public Result delete(Language language) {
-		
+
 		languageDao.delete(language);
 		return new SuccessResult("Dil silindi.");
 	}

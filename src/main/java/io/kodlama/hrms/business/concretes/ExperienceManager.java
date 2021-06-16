@@ -26,21 +26,21 @@ public class ExperienceManager implements ExperienceService {
 
 	@Override
 	public Result add(Experience experience) {
-		
+
 		experienceDao.save(experience);
 		return new SuccessResult("İş deneyimi eklendi.");
 	}
 
 	@Override
 	public Result update(Experience experience) {
-		
+
 		experienceDao.save(experience);
 		return new SuccessResult("İş deneyimi güncellendi.");
 	}
 
 	@Override
 	public Result delete(Experience experience) {
-		
+
 		experienceDao.delete(experience);
 		return new SuccessResult("İş deneyimi silindi.");
 	}

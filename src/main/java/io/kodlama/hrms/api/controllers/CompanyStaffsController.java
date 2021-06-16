@@ -18,14 +18,14 @@ import io.kodlama.hrms.entities.concretes.CompanyStaff;
 @RestController
 @RequestMapping("/api/companyStaffs")
 public class CompanyStaffsController {
-	
+
 	private CompanyStaffService companyStaffService;
-	
+
 	@Autowired
 	public CompanyStaffsController(CompanyStaffService companyStaffService) {
 		this.companyStaffService = companyStaffService;
 	}
-	
+
 	@PostMapping("/add")
 	public Result add(@RequestBody CompanyStaff companyStaff) {
 		return companyStaffService.add(companyStaff);

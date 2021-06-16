@@ -26,24 +26,24 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "user_confirmations")
 public class UserConfirmation {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	
+
 	@Column(name = "is_confirmed_date")
 	private LocalDate isConfirmedDate;
-	
+
 	@OneToOne()
 	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	@ManyToOne()
 	@JoinColumn(name = "company_staff_id")
 	private CompanyStaff companyStaff;
-	
-	public UserConfirmation(User user, CompanyStaff companyStaff){
+
+	public UserConfirmation(User user, CompanyStaff companyStaff) {
 		this.setUser(user);
 		this.setCompanyStaff(companyStaff);
 	}

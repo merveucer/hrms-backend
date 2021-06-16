@@ -6,8 +6,8 @@ import io.kodlama.hrms.entities.concretes.Candidate;
 
 public interface CandidateService extends BaseEntityService<Candidate> {
 	
-	DataResult<Candidate> getByIdentityNumber(String identityNumber);
-	
 	Result activate(String code);
+
+	DataResult<Candidate> getByIdentityNumber(String identityNumber);
 
 }

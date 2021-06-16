@@ -18,7 +18,7 @@ import io.kodlama.hrms.entities.concretes.UserConfirmation;
 @RestController
 @RequestMapping("/api/userConfirmations")
 public class UserConfirmationsController {
-	
+
 	private UserConfirmationService userConfirmationService;
 
 	@Autowired

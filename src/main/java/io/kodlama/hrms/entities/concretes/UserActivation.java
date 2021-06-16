@@ -24,24 +24,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "user_activations")
-public class UserActivation{
-	
+public class UserActivation {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	
+
 	@Column(name = "code")
 	private String code;
-	
+
 	@Column(name = "is_activated_date")
 	private LocalDate isActivatedDate;
-	
+
 	@OneToOne()
 	@JoinColumn(name = "user_id")
 	private User user;
-	
-	public UserActivation(User user){
+
+	public UserActivation(User user) {
 		this.setUser(user);
 	}
 

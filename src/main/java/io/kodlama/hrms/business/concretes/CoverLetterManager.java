@@ -25,21 +25,21 @@ public class CoverLetterManager implements CoverLetterService {
 
 	@Override
 	public Result add(CoverLetter coverLetter) {
-		
+
 		coverLetterDao.save(coverLetter);
 		return new SuccessResult("Ön yazı eklendi.");
 	}
 
 	@Override
 	public Result update(CoverLetter coverLetter) {
-		
+
 		coverLetterDao.save(coverLetter);
 		return new SuccessResult("Ön yazı güncellendi.");
 	}
 
 	@Override
 	public Result delete(CoverLetter coverLetter) {
-		
+
 		coverLetterDao.delete(coverLetter);
 		return new SuccessResult("Ön yazı silindi.");
 	}

@@ -15,9 +15,9 @@ import io.kodlama.hrms.entities.concretes.CompanyStaff;
 
 @Service
 public class CompanyStaffManager implements CompanyStaffService {
-	
+
 	private CompanyStaffDao companyStaffDao;
-	
+
 	@Autowired
 	public CompanyStaffManager(CompanyStaffDao companyStaffDao) {
 		this.companyStaffDao = companyStaffDao;
@@ -25,21 +25,21 @@ public class CompanyStaffManager implements CompanyStaffService {
 
 	@Override
 	public Result add(CompanyStaff companyStaff) {
-		
+
 		companyStaffDao.save(companyStaff);
 		return new SuccessResult("Şirket personeli eklendi.");
 	}
 
 	@Override
 	public Result update(CompanyStaff companyStaff) {
-		
+
 		companyStaffDao.save(companyStaff);
 		return new SuccessResult("Şirket personeli güncellendi.");
 	}
 
 	@Override
 	public Result delete(CompanyStaff companyStaff) {
-		
+
 		companyStaffDao.delete(companyStaff);
 		return new SuccessResult("Şirket personeli silindi.");
 	}

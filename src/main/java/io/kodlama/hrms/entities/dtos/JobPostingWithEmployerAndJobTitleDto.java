@@ -10,19 +10,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobPostingWithEmployerAndJobTitleDto {
-	
+
 	private int id;
-	
+
 	private String companyName;
-	
+
 	private String title;
-	
+
 	private int numberOfOpenPositions;
-	
+
 	private LocalDate postingDate;
-	
+
 	private LocalDate closingDate;
-	
+
 	private boolean isActive;
-	
+
 }

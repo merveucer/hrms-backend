@@ -26,21 +26,21 @@ public class EducationManager implements EducationService {
 
 	@Override
 	public Result add(Education education) {
-		
+
 		educationDao.save(education);
 		return new SuccessResult("Eğitim eklendi.");
 	}
 
 	@Override
 	public Result update(Education education) {
-		
+
 		educationDao.save(education);
 		return new SuccessResult("Eğitim güncellendi.");
 	}
 
 	@Override
 	public Result delete(Education education) {
-		
+
 		educationDao.delete(education);
 		return new SuccessResult("Eğitim silindi.");
 	}

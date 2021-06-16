@@ -48,14 +48,14 @@ public class ResumeManager implements ResumeService {
 
 	@Override
 	public Result update(Resume resume) {
-		
+
 		resumeDao.save(resume);
 		return new SuccessResult("Özgeçmiş güncellendi.");
 	}
 
 	@Override
 	public Result delete(Resume resume) {
-		
+
 		resumeDao.delete(resume);
 		return new SuccessResult("Özgeçmiş silindi.");
 	}
@@ -90,17 +90,18 @@ public class ResumeManager implements ResumeService {
 
 		Resume resume = getByCandidateId(candidateId).getData();
 
-		ResumeWithAllRelatedEntitiesDto resumeWithAllRelatedEntitiesDto = new ResumeWithAllRelatedEntitiesDto();
-		resumeWithAllRelatedEntitiesDto.setId(resume.getId());
-		resumeWithAllRelatedEntitiesDto.setCreationDate(resume.getCreationDate());
-		resumeWithAllRelatedEntitiesDto.setCandidate(resume.getCandidate());
-		resumeWithAllRelatedEntitiesDto.setCoverLetter(resume.getCoverLetter());
-		resumeWithAllRelatedEntitiesDto.setImage(imageService.getByUserId(candidateId).getData());
-		resumeWithAllRelatedEntitiesDto.setEducations(educationService.getAllByResumeIdSortedByGraduationDate(resume.getId()).getData());
-		resumeWithAllRelatedEntitiesDto.setExperiences(experienceService.getAllByResumeIdSortedByTerminationDate(resume.getId()).getData());
-		resumeWithAllRelatedEntitiesDto.setLanguageLevels(resume.getLanguageLevels());
-		resumeWithAllRelatedEntitiesDto.setLinks(resume.getLinks());
-		resumeWithAllRelatedEntitiesDto.setSkills(resume.getSkills());
+		ResumeWithAllRelatedEntitiesDto resumeWithAllRelatedEntitiesDto = new ResumeWithAllRelatedEntitiesDto(
+				resume.getId(),
+				resume.getCreationDate(),
+				resume.getCandidate(),
+				resume.getCoverLetter(),
+				imageService.getByUserId(candidateId).getData(),
+				educationService.getAllByResumeIdSortedByGraduationDate(resume.getId()).getData(),
+				experienceService.getAllByResumeIdSortedByTerminationDate(resume.getId()).getData(),
+				resume.getLanguageLevels(),
+				resume.getLinks(),
+				resume.getSkills()
+				);
 
 		return new SuccessDataResult<ResumeWithAllRelatedEntitiesDto>(resumeWithAllRelatedEntitiesDto);
 	}

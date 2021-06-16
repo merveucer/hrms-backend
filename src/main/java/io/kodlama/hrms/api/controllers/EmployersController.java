@@ -29,25 +29,25 @@ public class EmployersController {
 	public DataResult<List<Employer>> getAll() {
 		return employerService.getAll();
 	}
-	
+
 	@GetMapping("getById")
 	public DataResult<Employer> getById(@RequestParam int id) {
 		return employerService.getById(id);
 	}
-	
-	@GetMapping("/getByIsActivatedAndIsConfirmed")
-	public DataResult<List<Employer>> getAllByIsActivatedAndIsConfirmed(boolean isActivated, boolean isConfirmed) {
-		return employerService.getAllByIsActivatedAndIsConfirmed(isActivated, isConfirmed);
-	}
-	
+
 	@PostMapping("/activate")
-	public Result activate(String code) {
+	public Result activate(@RequestParam String code) {
 		return employerService.activate(code);
 	}
-	
+
 	@PostMapping("/confirm")
-	public Result confirm(int employerId, int companyStaffId, boolean isConfirmed) {
+	public Result confirm(@RequestParam int employerId, @RequestParam int companyStaffId, @RequestParam boolean isConfirmed) {
 		return employerService.confirm(employerId, companyStaffId, isConfirmed);
+	}
+
+	@GetMapping("/getByIsActivatedAndIsConfirmed")
+	public DataResult<List<Employer>> getAllByIsActivatedAndIsConfirmed(@RequestParam boolean isActivated, @RequestParam boolean isConfirmed) {
+		return employerService.getAllByIsActivatedAndIsConfirmed(isActivated, isConfirmed);
 	}
 
 }

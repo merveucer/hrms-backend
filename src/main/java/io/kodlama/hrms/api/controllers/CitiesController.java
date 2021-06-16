@@ -18,7 +18,7 @@ import io.kodlama.hrms.entities.concretes.City;
 @RestController
 @RequestMapping("/api/cities")
 public class CitiesController {
-	
+
 	private CityService cityService;
 
 	@Autowired

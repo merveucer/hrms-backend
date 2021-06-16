@@ -25,21 +25,21 @@ public class LanguageLevelManager implements LanguageLevelService {
 
 	@Override
 	public Result add(LanguageLevel languageLevel) {
-		
+
 		languageLevelDao.save(languageLevel);
 		return new SuccessResult("Dil seviyesi eklendi.");
 	}
 
 	@Override
 	public Result update(LanguageLevel languageLevel) {
-		
+
 		languageLevelDao.save(languageLevel);
 		return new SuccessResult("Dil seviyesi güncellendi.");
 	}
 
 	@Override
 	public Result delete(LanguageLevel languageLevel) {
-		
+
 		languageLevelDao.delete(languageLevel);
 		return new SuccessResult("Dil seviyesi silindi.");
 	}

@@ -34,31 +34,31 @@ public class CandidateManager implements CandidateService {
 
 	@Override
 	public Result add(Candidate candidate) {
-		
-		if (!userCheckService.checkIfRealPerson(candidate.getIdentityNumber(), candidate.getFirstName(), candidate.getLastName(), candidate.getDateOfBirth().getYear())) {
+
+		if (!userCheckService.checkIfRealPerson(candidate.getIdentityNumber(), candidate.getFirstName(), candidate.getLastName(), candidate.getDateOfBirth())) {
 			return new ErrorResult("Lütfen bilgilerinizi doğru giriniz.");
 		}
 
 		if (!checkIfIdentityNumberExists(candidate.getIdentityNumber())) {
 			return new ErrorResult("Girilen kimlik numarası başka bir hesaba aittir.");
 		}
-		
+
 		candidate.setActivated(false);
-		
+
 		candidateDao.save(candidate);
 		return userActivationService.add(new UserActivation(candidate));
 	}
 
 	@Override
 	public Result update(Candidate candidate) {
-		
+
 		candidateDao.save(candidate);
 		return new SuccessResult("İş arayan güncellendi.");
 	}
 
 	@Override
 	public Result delete(Candidate candidate) {
-		
+
 		candidateDao.delete(candidate);
 		return new SuccessResult("İş arayan silindi.");
 	}
@@ -74,27 +74,27 @@ public class CandidateManager implements CandidateService {
 	}
 	
 	@Override
-	public DataResult<Candidate> getByIdentityNumber(String identityNumber) {
-		return new SuccessDataResult<Candidate>(candidateDao.getByIdentityNumber(identityNumber));
-	}
-	
-	@Override
 	public Result activate(String code) {
-		
+
 		UserActivation userActivation = userActivationService.getByCode(code).getData();
-		
+
 		if (userActivation == null) {
 			return new ErrorResult("Geçersiz bir kod girdiniz.");
 		}
-		
-	    Candidate candidate = getById(userActivation.getUser().getId()).getData();
-		
+
+		Candidate candidate = getById(userActivation.getUser().getId()).getData();
+
 		candidate.setActivated(true);
 		userActivation.setIsActivatedDate(LocalDate.now());
-		
+
 		update(candidate);
 		userActivationService.update(userActivation);
 		return new SuccessResult("Üyelik işlemleri tamamlanmıştır.");
+	}
+
+	@Override
+	public DataResult<Candidate> getByIdentityNumber(String identityNumber) {
+		return new SuccessDataResult<Candidate>(candidateDao.getByIdentityNumber(identityNumber));
 	}
 
 	private boolean checkIfIdentityNumberExists(String identityNumber) {

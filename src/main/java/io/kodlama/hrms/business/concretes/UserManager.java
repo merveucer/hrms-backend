@@ -13,9 +13,9 @@ import io.kodlama.hrms.core.utilities.results.SuccessDataResult;
 
 @Service
 public class UserManager implements UserService {
-	
+
 	private UserDao userDao;
-	
+
 	@Autowired
 	public UserManager(UserDao userDao) {
 		this.userDao = userDao;

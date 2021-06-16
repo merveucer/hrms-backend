@@ -25,21 +25,21 @@ public class LinkManager implements LinkService {
 
 	@Override
 	public Result add(Link link) {
-		
+
 		linkDao.save(link);
 		return new SuccessResult("Link eklendi.");
 	}
 
 	@Override
 	public Result update(Link link) {
-		
+
 		linkDao.save(link);
 		return new SuccessResult("Link güncellendi.");
 	}
 
 	@Override
 	public Result delete(Link link) {
-		
+
 		linkDao.delete(link);
 		return new SuccessResult("Link silindi.");
 	}

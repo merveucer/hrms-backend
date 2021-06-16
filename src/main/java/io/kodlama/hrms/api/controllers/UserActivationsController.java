@@ -18,7 +18,7 @@ import io.kodlama.hrms.entities.concretes.UserActivation;
 @RestController
 @RequestMapping("/api/userActivations")
 public class UserActivationsController {
-	
+
 	private UserActivationService userActivationService;
 
 	@Autowired

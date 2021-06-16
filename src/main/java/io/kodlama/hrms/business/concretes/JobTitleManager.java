@@ -37,7 +37,7 @@ public class JobTitleManager implements JobTitleService {
 
 	@Override
 	public Result update(JobTitle jobTitle) {
-		
+
 		jobTitleDao.save(jobTitle);
 		return new SuccessResult("İş pozisyonu güncellendi.");
 	}
@@ -63,7 +63,7 @@ public class JobTitleManager implements JobTitleService {
 	public DataResult<JobTitle> getByTitle(String title) {
 		return new SuccessDataResult<JobTitle>(jobTitleDao.getByTitle(title));
 	}
-	
+
 	private boolean checkIfJobTitleExists(String title) {
 
 		boolean result = false;

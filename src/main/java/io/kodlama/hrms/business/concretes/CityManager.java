@@ -15,9 +15,9 @@ import io.kodlama.hrms.entities.concretes.City;
 
 @Service
 public class CityManager implements CityService {
-	
+
 	private CityDao cityDao;
-	
+
 	@Autowired
 	public CityManager(CityDao cityDao) {
 		this.cityDao = cityDao;
@@ -25,21 +25,21 @@ public class CityManager implements CityService {
 
 	@Override
 	public Result add(City city) {
-		
+
 		cityDao.save(city);
 		return new SuccessResult("Şehir eklendi.");
 	}
 
 	@Override
 	public Result update(City city) {
-		
+
 		cityDao.save(city);
 		return new SuccessResult("Şehir güncellendi.");
 	}
 
 	@Override
 	public Result delete(City city) {
-		
+
 		cityDao.delete(city);
 		return new SuccessResult("Şehir silindi.");
 	}

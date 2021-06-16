@@ -15,19 +15,19 @@ import io.kodlama.hrms.core.utilities.results.DataResult;
 @RestController
 @RequestMapping("/api/users")
 public class UsersController {
-	
+
 	private UserService userService;
-	
+
 	@Autowired
 	public UsersController(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	@GetMapping("/getAll")
 	public DataResult<List<User>> getAll() {
 		return userService.getAll();
 	}
-	
+
 	@GetMapping("/getById")
 	public DataResult<User> getById(@RequestParam int id) {
 		return userService.getById(id);
