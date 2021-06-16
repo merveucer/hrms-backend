@@ -33,14 +33,14 @@ public class ImageManager implements ImageService {
 
 	@Override
 	public Result add(Image image) {
-		
+
 		imageDao.save(image);
 		return new SuccessResult("İmaj eklendi.");
 	}
 
 	@Override
 	public Result update(Image image) {
-		
+
 		imageDao.save(image);
 		return new SuccessResult("İmaj güncellendi.");
 	}
@@ -48,6 +48,11 @@ public class ImageManager implements ImageService {
 	@Override
 	public Result delete(Image image) {
 
+		String[] splitImageUrlArray1 = image.getUrl().split("/");
+		int indexOfExtension = splitImageUrlArray1[splitImageUrlArray1.length - 1].indexOf(".");
+		String publicIdOfImage = splitImageUrlArray1[splitImageUrlArray1.length - 1].substring(0, indexOfExtension);
+
+		cloudStorageService.delete(publicIdOfImage);
 		imageDao.delete(image);
 		return new SuccessResult("İmaj silindi.");
 	}

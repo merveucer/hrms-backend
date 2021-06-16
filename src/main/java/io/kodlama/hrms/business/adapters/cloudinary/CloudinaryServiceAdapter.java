@@ -1,6 +1,8 @@
 package io.kodlama.hrms.business.adapters.cloudinary;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +18,12 @@ import io.kodlama.hrms.core.utilities.results.SuccessDataResult;
 
 @Service
 public class CloudinaryServiceAdapter implements CloudStorageService {
-	
+
 	private Cloudinary cloudinary;
-	
+
 	@Autowired
-	public CloudinaryServiceAdapter() {
-		cloudinary = new Cloudinary(ObjectUtils.asMap(
-				"cloud_name", "",
-				"api_key", "",
-				"api_secret", ""));
+	public CloudinaryServiceAdapter(Cloudinary cloudinary) {
+		this.cloudinary = cloudinary;
 	}
 
 	@Override
@@ -34,6 +33,21 @@ public class CloudinaryServiceAdapter implements CloudStorageService {
 			Map<?, ?> uploadResult = cloudinary.uploader().upload(multipartFile.getBytes(), ObjectUtils.emptyMap());
 			return new SuccessDataResult<>(uploadResult);
 		} catch (IOException e) {
+			e.printStackTrace();
+			return new ErrorDataResult<>();
+		}
+	}
+
+	@Override
+	public DataResult<?> delete(String publicIdOfImage) {
+		
+		List<String> arrayList = new ArrayList<String>();
+		arrayList.add(publicIdOfImage);
+		
+		try {			
+			Map<?, ?> uploadResult = cloudinary.api().deleteResources(arrayList, ObjectUtils.emptyMap());
+			return new SuccessDataResult<>(uploadResult);
+		} catch (Throwable e) {
 			e.printStackTrace();
 			return new ErrorDataResult<>();
 		}
