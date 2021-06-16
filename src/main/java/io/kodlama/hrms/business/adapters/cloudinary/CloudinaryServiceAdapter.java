@@ -41,12 +41,12 @@ public class CloudinaryServiceAdapter implements CloudStorageService {
 	@Override
 	public DataResult<?> delete(String publicIdOfImage) {
 		
-		List<String> arrayList = new ArrayList<String>();
-		arrayList.add(publicIdOfImage);
+		List<String> publicIdsOfImages = new ArrayList<String>();
+		publicIdsOfImages.add(publicIdOfImage);
 		
 		try {			
-			Map<?, ?> uploadResult = cloudinary.api().deleteResources(arrayList, ObjectUtils.emptyMap());
-			return new SuccessDataResult<>(uploadResult);
+			Map<?, ?> deleteResult = cloudinary.api().deleteResources(publicIdsOfImages, ObjectUtils.emptyMap());
+			return new SuccessDataResult<>(deleteResult);
 		} catch (Throwable e) {
 			e.printStackTrace();
 			return new ErrorDataResult<>();
