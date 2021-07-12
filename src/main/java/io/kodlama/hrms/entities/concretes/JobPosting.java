@@ -1,6 +1,7 @@
 package io.kodlama.hrms.entities.concretes;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,19 +38,22 @@ public class JobPosting {
 	private int numberOfOpenPositions;
 
 	@Column(name = "salary_min")
-	private int salaryMin;
+	private String salaryMin;
 
 	@Column(name = "salary_max")
-	private int salaryMax;
+	private String salaryMax;
 
 	@Column(name = "posting_date")
-	private LocalDate postingDate;
+	private LocalDateTime postingDate;
 
 	@Column(name = "closing_date")
 	private LocalDate closingDate;
 
 	@Column(name = "is_active")
 	private boolean isActive;
+	
+	@Column(name = "is_confirmed")
+	private boolean isConfirmed;
 
 	@ManyToOne()
 	@JoinColumn(name = "employer_id")
@@ -62,5 +66,13 @@ public class JobPosting {
 	@ManyToOne()
 	@JoinColumn(name = "city_id")
 	private City city;
+	
+	@ManyToOne()
+	@JoinColumn(name = "working_type_id")
+	private WorkingType workingType;
+	
+	@ManyToOne()
+	@JoinColumn(name = "working_time_id")
+	private WorkingTime workingTime;
 
 }

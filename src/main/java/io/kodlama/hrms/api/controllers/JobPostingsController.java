@@ -3,6 +3,7 @@ package io.kodlama.hrms.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import io.kodlama.hrms.entities.dtos.JobPostingWithEmployerAndJobTitleDto;
 
 @RestController
 @RequestMapping("/api/jobPostings")
+@CrossOrigin
 public class JobPostingsController {
 	
 	private JobPostingService jobPostingService;
@@ -47,6 +49,11 @@ public class JobPostingsController {
 		return jobPostingService.getById(id);
 	}
 	
+	@PostMapping("/confirm")
+	public Result confirm(@RequestParam int jobPostingId, @RequestParam int companyStaffId, @RequestParam boolean isConfirmed) {
+		return jobPostingService.confirm(jobPostingId, companyStaffId, isConfirmed);
+	}
+	
 	@PostMapping("/doActiveOrPassive")
 	public Result doActiveOrPassive(@RequestParam int id, @RequestParam boolean isActive) {
 		return jobPostingService.doActiveOrPassive(id, isActive);
@@ -60,6 +67,11 @@ public class JobPostingsController {
 	@GetMapping("/getAllActiveJobPostingDetailsSortedByPostingDate")
 	public DataResult<List<JobPostingWithEmployerAndJobTitleDto>> getAllActiveJobPostingDetailsSortedByPostingDate() {
 		return jobPostingService.getAllActiveJobPostingDetailsSortedByPostingDate();
+	}
+	
+	@GetMapping("/getAllActiveJobPostingDetailsSortedByPostingDateTop6")
+	public DataResult<List<JobPostingWithEmployerAndJobTitleDto>> getAllActiveJobPostingDetailsSortedByPostingDateTop6() {
+		return jobPostingService.getAllActiveJobPostingDetailsSortedByPostingDateTop6();
 	}
 	
 	@GetMapping("/getAllActiveJobPostingDetailsByCompanyName")
