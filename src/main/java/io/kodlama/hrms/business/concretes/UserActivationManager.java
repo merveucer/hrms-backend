@@ -1,6 +1,6 @@
 package io.kodlama.hrms.business.concretes;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +33,7 @@ public class UserActivationManager implements UserActivationService {
 	public Result add(UserActivation userActivation) {
 
 		userActivation.setCode(generateCode());
-		userActivation.setIsActivatedDate(LocalDate.now());
+		userActivation.setIsActivatedDate(LocalDateTime.now());
 
 		userActivationDao.save(userActivation);
 		return emailService.sendEmail(userActivation.getUser());

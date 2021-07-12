@@ -1,6 +1,6 @@
 package io.kodlama.hrms.entities.concretes;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,7 +35,7 @@ public class UserActivation {
 	private String code;
 
 	@Column(name = "is_activated_date")
-	private LocalDate isActivatedDate;
+	private LocalDateTime isActivatedDate;
 
 	@OneToOne()
 	@JoinColumn(name = "user_id")

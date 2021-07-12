@@ -1,6 +1,6 @@
 package io.kodlama.hrms.entities.dtos;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import io.kodlama.hrms.entities.concretes.Candidate;
@@ -22,7 +22,7 @@ public class ResumeWithAllRelatedEntitiesDto {
 
 	private int id;
 
-	private LocalDate creationDate;
+	private LocalDateTime creationDate;
 
 	private Candidate candidate;
 

@@ -1,6 +1,6 @@
 package io.kodlama.hrms.entities.concretes;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -35,7 +35,7 @@ public class Resume {
 	private int id;
 
 	@Column(name = "creation_date")
-	private LocalDate creationDate;
+	private LocalDateTime creationDate;
 
 	@OneToOne
 	@JoinColumn(name = "candidate_id")

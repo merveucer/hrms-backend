@@ -1,6 +1,6 @@
 package io.kodlama.hrms.business.concretes;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +85,7 @@ public class CandidateManager implements CandidateService {
 		Candidate candidate = getById(userActivation.getUser().getId()).getData();
 
 		candidate.setActivated(true);
-		userActivation.setIsActivatedDate(LocalDate.now());
+		userActivation.setIsActivatedDate(LocalDateTime.now());
 
 		update(candidate);
 		userActivationService.update(userActivation);

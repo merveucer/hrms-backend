@@ -1,6 +1,6 @@
 package io.kodlama.hrms.business.concretes;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class ResumeManager implements ResumeService {
 	@Override
 	public Result add(Resume resume) {
 
-		resume.setCreationDate(LocalDate.now());
+		resume.setCreationDate(LocalDateTime.now());
 
 		resumeDao.save(resume);
 		return new SuccessResult("Özgeçmiş eklendi.");

@@ -1,6 +1,6 @@
 package io.kodlama.hrms.business.concretes;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class UserConfirmationManager implements UserConfirmationService {
 	@Override
 	public Result add(UserConfirmation userConfirmation) {
 
-		userConfirmation.setIsConfirmedDate(LocalDate.now());
+		userConfirmation.setIsConfirmedDate(LocalDateTime.now());
 
 		userConfirmationDao.save(userConfirmation);
 		emailService.sendEmail(userConfirmation.getUser());
