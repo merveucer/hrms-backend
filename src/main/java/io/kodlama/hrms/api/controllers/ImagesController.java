@@ -3,6 +3,7 @@ package io.kodlama.hrms.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import io.kodlama.hrms.entities.concretes.Image;
 
 @RestController
 @RequestMapping("/api/images")
+@CrossOrigin
 public class ImagesController {
 
 	private ImageService imageService;
