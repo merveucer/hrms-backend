@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.CandidateService;
 import io.kodlama.hrms.business.abstracts.UserActivationService;
+import io.kodlama.hrms.business.abstracts.UserService;
 import io.kodlama.hrms.business.adapters.mernis.UserCheckService;
 import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.ErrorResult;
@@ -22,12 +23,14 @@ import io.kodlama.hrms.entities.concretes.UserActivation;
 public class CandidateManager implements CandidateService {
 
 	private CandidateDao candidateDao;
+	private UserService userService;
 	private UserCheckService userCheckService;
 	private UserActivationService userActivationService;
 
 	@Autowired
-	public CandidateManager(CandidateDao candidateDao, UserCheckService userCheckService, UserActivationService userActivationService) {
+	public CandidateManager(CandidateDao candidateDao, UserService userService, UserCheckService userCheckService, UserActivationService userActivationService) {
 		this.candidateDao = candidateDao;
+		this.userService = userService;
 		this.userCheckService = userCheckService;
 		this.userActivationService = userActivationService;
 	}
@@ -35,13 +38,7 @@ public class CandidateManager implements CandidateService {
 	@Override
 	public Result add(Candidate candidate) {
 
-		if (!userCheckService.checkIfRealPerson(candidate.getIdentityNumber(), candidate.getFirstName(), candidate.getLastName(), candidate.getDateOfBirth())) {
-			return new ErrorResult("Lütfen bilgilerinizi doğru giriniz.");
-		}
-
-		if (!checkIfIdentityNumberExists(candidate.getIdentityNumber())) {
-			return new ErrorResult("Girilen kimlik numarası başka bir hesaba aittir.");
-		}
+		validateCandidate(candidate);
 
 		candidate.setActivated(false);
 
@@ -51,6 +48,8 @@ public class CandidateManager implements CandidateService {
 
 	@Override
 	public Result update(Candidate candidate) {
+
+		validateCandidate(candidate);
 
 		candidateDao.save(candidate);
 		return new SuccessResult("İş arayan güncellendi.");
@@ -72,7 +71,7 @@ public class CandidateManager implements CandidateService {
 	public DataResult<Candidate> getById(int id) {
 		return new SuccessDataResult<Candidate>(candidateDao.getById(id));
 	}
-	
+
 	@Override
 	public Result activate(String code) {
 
@@ -87,14 +86,30 @@ public class CandidateManager implements CandidateService {
 		candidate.setActivated(true);
 		userActivation.setIsActivatedDate(LocalDateTime.now());
 
-		update(candidate);
+		candidateDao.save(candidate);
 		userActivationService.update(userActivation);
 		return new SuccessResult("Üyelik işlemleri tamamlanmıştır.");
 	}
 
 	@Override
+	public DataResult<List<Candidate>> getAllByIsActivated(boolean isActivated) {
+		return new SuccessDataResult<List<Candidate>>(candidateDao.getByIsActivated(isActivated));
+	}
+
+	@Override
 	public DataResult<Candidate> getByIdentityNumber(String identityNumber) {
 		return new SuccessDataResult<Candidate>(candidateDao.getByIdentityNumber(identityNumber));
+	}
+
+	private boolean checkIfEmailExists(String email) {
+
+		boolean result = false;
+
+		if (userService.getByEmail(email).getData() == null) {
+			result = true;
+		}
+
+		return result;
 	}
 
 	private boolean checkIfIdentityNumberExists(String identityNumber) {
@@ -106,6 +121,23 @@ public class CandidateManager implements CandidateService {
 		}
 
 		return result;
+	}
+
+	private Result validateCandidate(Candidate candidate) {
+
+		if (!checkIfEmailExists(candidate.getEmail())) {
+			return new ErrorResult("Girilen e-posta adresi başka bir hesaba aittir.");
+		}
+
+		if (!checkIfIdentityNumberExists(candidate.getIdentityNumber())) {
+			return new ErrorResult("Girilen kimlik numarası başka bir hesaba aittir.");
+		}
+
+		if (!userCheckService.checkIfRealPerson(candidate.getIdentityNumber(), candidate.getFirstName(), candidate.getLastName(), candidate.getDateOfBirth())) {
+			return new ErrorResult("Lütfen bilgilerinizi doğru giriniz.");
+		}
+
+		return null;
 	}
 
 }
