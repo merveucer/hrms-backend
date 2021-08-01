@@ -1,19 +1,16 @@
 package io.kodlama.hrms.entities.concretes;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import io.kodlama.hrms.core.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,28 +20,30 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@Table(name = "user_confirmations")
-public class UserConfirmation {
+@Table(name = "updated_employers")
+public class UpdatedEmployer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
+	@Column(name = "email")
+	private String email;
 
-	@Column(name = "is_confirmed_date")
-	private LocalDateTime isConfirmedDate;
+	@Column(name = "password")
+	private String password;
 
-	@ManyToOne()
-	@JoinColumn(name = "user_id")
-	private User user;
+	@Column(name = "company_name")
+	private String companyName;
 
-	@ManyToOne()
-	@JoinColumn(name = "company_staff_id")
-	private CompanyStaff companyStaff;
+	@Column(name = "web_address")
+	private String webAddress;
 
-	public UserConfirmation(User user, CompanyStaff companyStaff) {
-		this.setUser(user);
-		this.setCompanyStaff(companyStaff);
-	}
+	@Column(name = "phone_number")
+	private String phoneNumber;
+
+	@OneToOne
+	@JoinColumn(name = "employer_id")
+	private Employer employer;
 
 }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import io.kodlama.hrms.business.abstracts.AuthService;
 import io.kodlama.hrms.business.abstracts.CandidateService;
 import io.kodlama.hrms.business.abstracts.EmployerService;
-import io.kodlama.hrms.business.abstracts.UserService;
+import io.kodlama.hrms.core.entities.User;
 import io.kodlama.hrms.core.utilities.results.ErrorResult;
 import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.entities.concretes.Candidate;
@@ -15,54 +15,29 @@ import io.kodlama.hrms.entities.concretes.Employer;
 @Service
 public class AuthManager implements AuthService {
 
-	private UserService userService;
 	private CandidateService candidateService;
 	private EmployerService employerService;
 
 	@Autowired
-	public AuthManager(UserService userService, CandidateService candidateService, EmployerService employerService) {
-		this.userService = userService;
+	public AuthManager(CandidateService candidateService, EmployerService employerService) {
 		this.candidateService = candidateService;
 		this.employerService = employerService;
 	}
 
 	@Override
-	public Result resgisterCandidate(Candidate candidate, String confirmPassword) {
+	public Result resgisterCandidate(Candidate user, String confirmPassword) {
 
-		if (!checkIfEmailExists(candidate.getEmail())) {
-			return new ErrorResult("Girilen e-posta adresi başka bir hesaba aittir.");
-		}
+		validateUser(user, confirmPassword);
 
-		if (!checkIfPasswordsMatch(candidate.getPassword(), confirmPassword)) {
-			return new ErrorResult("Parola eşleşmesi gerçekleşmedi. Lütfen kontrol ederek yeniden deneyiniz.");
-		}
-
-		return candidateService.add(candidate);
+		return candidateService.add(user);
 	}
 
 	@Override
-	public Result resgisterEmployer(Employer employer, String confirmPassword) {
+	public Result resgisterEmployer(Employer user, String confirmPassword) {
 
-		if (!checkIfEmailExists(employer.getEmail())) {
-			return new ErrorResult("Girilen e-posta adresi başka bir hesaba aittir.");
-		}
+		validateUser(user, confirmPassword);
 
-		if (!checkIfPasswordsMatch(employer.getPassword(), confirmPassword)) {
-			return new ErrorResult("Parola eşleşmesi gerçekleşmedi. Lütfen kontrol ederek yeniden deneyiniz.");
-		}
-
-		return employerService.add(employer);
-	}
-
-	private boolean checkIfEmailExists(String email) {
-
-		boolean result = false;
-
-		if (userService.getByEmail(email).getData() == null) {
-			result = true;
-		}
-
-		return result;
+		return employerService.add(user);
 	}
 
 	private boolean checkIfPasswordsMatch(String password, String confirmPassword) {
@@ -74,6 +49,15 @@ public class AuthManager implements AuthService {
 		}
 
 		return result;
+	}
+
+	private Result validateUser(User user, String confirmPassword) {
+
+		if (!checkIfPasswordsMatch(user.getPassword(), confirmPassword)) {
+			return new ErrorResult("Parola eşleşmesi gerçekleşmedi. Lütfen kontrol ederek yeniden deneyiniz.");
+		}
+
+		return null;
 	}
 
 }

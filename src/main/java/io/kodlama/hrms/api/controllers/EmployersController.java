@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,11 @@ public class EmployersController {
 	@Autowired
 	public EmployersController(EmployerService employerService) {
 		this.employerService = employerService;
+	}
+
+	@PostMapping("/update")
+	public Result update(@RequestBody Employer employer) {
+		return employerService.update(employer);
 	}
 
 	@GetMapping("/getAll")
@@ -47,7 +53,7 @@ public class EmployersController {
 		return employerService.confirm(employerId, companyStaffId, isConfirmed);
 	}
 
-	@GetMapping("/getByIsActivatedAndIsConfirmed")
+	@GetMapping("/getAllByIsActivatedAndIsConfirmed")
 	public DataResult<List<Employer>> getAllByIsActivatedAndIsConfirmed(@RequestParam boolean isActivated, @RequestParam boolean isConfirmed) {
 		return employerService.getAllByIsActivatedAndIsConfirmed(isActivated, isConfirmed);
 	}
