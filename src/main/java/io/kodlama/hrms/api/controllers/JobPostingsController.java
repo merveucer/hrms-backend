@@ -58,30 +58,30 @@ public class JobPostingsController {
 		return jobPostingService.doActiveOrPassive(id, isActive);
 	}
 
-	@GetMapping("/getAllActiveJobPosting")
-	public DataResult<List<JobPosting>> getAllActiveJobPosting(@RequestParam int pageNo, @RequestParam int pageSize) {
-		return jobPostingService.getAllActiveJobPosting(pageNo, pageSize);
+	@GetMapping("/getAllActiveOnes")
+	public DataResult<List<JobPosting>> getAllActiveOnes(@RequestParam int pageNo, @RequestParam int pageSize) {
+		return jobPostingService.getAllActiveOnes(pageNo, pageSize);
 	}
 
-	@GetMapping("/getAllActiveJobPostingSortedByPostingDate")
-	public DataResult<List<JobPosting>> getAllActiveJobPostingSortedByPostingDate(@RequestParam int pageNo,	@RequestParam int pageSize) {
-		return jobPostingService.getAllActiveJobPostingSortedByPostingDate(pageNo, pageSize);
+	@GetMapping("/getAllActiveOnesSortedByPostingDate")
+	public DataResult<List<JobPosting>> getAllActiveOnesSortedByPostingDate(@RequestParam int pageNo,	@RequestParam int pageSize) {
+		return jobPostingService.getAllActiveOnesSortedByPostingDate(pageNo, pageSize);
 	}
 
-	@GetMapping("/getAllActiveJobPostingSortedByPostingDateTop6")
-	public DataResult<List<JobPosting>> getAllActiveJobPostingSortedByPostingDateTop6() {
-		return jobPostingService.getAllActiveJobPostingSortedByPostingDateTop6();
+	@GetMapping("/getAllActiveOnesSortedByPostingDateTop6")
+	public DataResult<List<JobPosting>> getAllActiveOnesSortedByPostingDateTop6() {
+		return jobPostingService.getAllActiveOnesSortedByPostingDateTop6();
 	}
 
-	@GetMapping("/getAllActiveJobPostingByEmployerId")
-	public DataResult<List<JobPosting>> getAllActiveJobPostingByEmployerId(@RequestParam int employerId) {
-		return jobPostingService.getAllActiveJobPostingByEmployerId(employerId);
+	@GetMapping("/getAllActiveOnesByEmployerId")
+	public DataResult<List<JobPosting>> getAllActiveOnesByEmployerId(@RequestParam int employerId) {
+		return jobPostingService.getAllActiveOnesByEmployerId(employerId);
 	}
 
-	@GetMapping("/getAllActiveJobPostingFilteredByWorkingTimeAndWorkingTypeAndCity")
-	public DataResult<List<JobPosting>> getAllActiveJobPostingFilteredByWorkingTimeAndWorkingTypeAndCity(@RequestParam int workingTimeId,
+	@GetMapping("/getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCity")
+	public DataResult<List<JobPosting>> getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCity(@RequestParam int workingTimeId,
 			@RequestParam int workingTypeId, @RequestParam int cityId, @RequestParam int pageNo, @RequestParam int pageSize) {
-		return jobPostingService.getAllActiveJobPostingFilteredByWorkingTimeAndWorkingTypeAndCity(workingTimeId, workingTypeId, cityId, pageNo, pageSize);
+		return jobPostingService.getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCity(workingTimeId, workingTypeId, cityId, pageNo, pageSize);
 	}
 
 }

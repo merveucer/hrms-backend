@@ -103,7 +103,7 @@ public class JobPostingManager implements JobPostingService {
 	}
 
 	@Override
-	public DataResult<List<JobPosting>> getAllActiveJobPosting(int pageNo, int pageSize) {
+	public DataResult<List<JobPosting>> getAllActiveOnes(int pageNo, int pageSize) {
 
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 
@@ -111,7 +111,7 @@ public class JobPostingManager implements JobPostingService {
 	}
 
 	@Override
-	public DataResult<List<JobPosting>> getAllActiveJobPostingSortedByPostingDate(int pageNo, int pageSize) {
+	public DataResult<List<JobPosting>> getAllActiveOnesSortedByPostingDate(int pageNo, int pageSize) {
 
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("postingDate").descending());
 
@@ -119,23 +119,23 @@ public class JobPostingManager implements JobPostingService {
 	}
 
 	@Override
-	public DataResult<List<JobPosting>> getAllActiveJobPostingSortedByPostingDateTop6() {
+	public DataResult<List<JobPosting>> getAllActiveOnesSortedByPostingDateTop6() {
 
-		List<JobPosting> result = getAllActiveJobPostingSortedByPostingDate(1, 6).getData();
+		List<JobPosting> result = getAllActiveOnesSortedByPostingDate(1, 6).getData();
 
 		return new SuccessDataResult<List<JobPosting>>(result);
 	}
 
 	@Override
-	public DataResult<List<JobPosting>> getAllActiveJobPostingByEmployerId(int employerId) {
+	public DataResult<List<JobPosting>> getAllActiveOnesByEmployerId(int employerId) {
 		return new SuccessDataResult<List<JobPosting>>(jobPostingDao.getByIsActiveAndEmployer_Id(true, employerId));
 	}
 
 	@Override
-	public DataResult<List<JobPosting>> getAllActiveJobPostingFilteredByWorkingTimeAndWorkingTypeAndCity(
+	public DataResult<List<JobPosting>> getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCity(
 			int workingTimeId, int workingTypeId, int cityId, int pageNo, int pageSize) {
 
-		Stream<JobPosting> stream = getAllActiveJobPosting(pageNo, pageSize).getData().stream();
+		Stream<JobPosting> stream = getAllActiveOnes(pageNo, pageSize).getData().stream();
 
 		Predicate<JobPosting> workingTimeCondition = jobPosting -> jobPosting.getWorkingTime().getId() == workingTimeId;
 		Predicate<JobPosting> workingTypeCondition = jobPosting -> jobPosting.getWorkingType().getId() == workingTypeId;
@@ -158,7 +158,7 @@ public class JobPostingManager implements JobPostingService {
 		} else if (workingTimeId != 0 && workingTypeId != 0 && cityId != 0) {
 			stream.filter(workingTimeCondition).filter(workingTypeCondition).filter(cityCondition).forEach(jobPosting -> result.add(jobPosting));
 		} else {
-			return new SuccessDataResult<List<JobPosting>>(getAllActiveJobPosting(pageNo, pageSize).getData());
+			return new SuccessDataResult<List<JobPosting>>(getAllActiveOnes(pageNo, pageSize).getData());
 		}
 
 		return new SuccessDataResult<List<JobPosting>>(result);

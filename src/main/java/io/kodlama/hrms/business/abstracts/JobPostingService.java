@@ -12,14 +12,14 @@ public interface JobPostingService extends BaseEntityService<JobPosting> {
 
 	Result doActiveOrPassive(int id, boolean isActive);
 
-	DataResult<List<JobPosting>> getAllActiveJobPosting(int pageNo, int pageSize);
+	DataResult<List<JobPosting>> getAllActiveOnes(int pageNo, int pageSize);
 
-	DataResult<List<JobPosting>> getAllActiveJobPostingSortedByPostingDate(int pageNo, int pageSize);
+	DataResult<List<JobPosting>> getAllActiveOnesSortedByPostingDate(int pageNo, int pageSize);
 
-	DataResult<List<JobPosting>> getAllActiveJobPostingSortedByPostingDateTop6();
+	DataResult<List<JobPosting>> getAllActiveOnesSortedByPostingDateTop6();
 
-	DataResult<List<JobPosting>> getAllActiveJobPostingByEmployerId(int employerId);
+	DataResult<List<JobPosting>> getAllActiveOnesByEmployerId(int employerId);
 
-	DataResult<List<JobPosting>> getAllActiveJobPostingFilteredByWorkingTimeAndWorkingTypeAndCity(int workingTimeId, int workingTypeId, int cityId, int pageNo, int pageSize);
+	DataResult<List<JobPosting>> getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCity(int workingTimeId, int workingTypeId, int cityId, int pageNo, int pageSize);
 
 }
