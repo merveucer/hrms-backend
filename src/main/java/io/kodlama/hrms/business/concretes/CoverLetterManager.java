@@ -55,8 +55,8 @@ public class CoverLetterManager implements CoverLetterService {
 	}
 
 	@Override
-	public DataResult<CoverLetter> getByCandidateId(int candidateId) {
-		return new SuccessDataResult<CoverLetter>(coverLetterDao.getByCandidate_Id(candidateId));
+	public DataResult<List<CoverLetter>> getAllByCandidateId(int candidateId) {
+		return new SuccessDataResult<List<CoverLetter>>(coverLetterDao.getByCandidate_Id(candidateId));
 	}
 
 }

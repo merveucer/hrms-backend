@@ -52,10 +52,10 @@ public class CoverLettersController {
 	public DataResult<CoverLetter> getById(@RequestParam int id) {
 		return coverLetterService.getById(id);
 	}
-	
-	@GetMapping("/getByCandidateId")
-	public DataResult<CoverLetter> getByCandidateId(@RequestParam int candidateId) {
-		return coverLetterService.getByCandidateId(candidateId);
+
+	@GetMapping("/getAllByCandidateId")
+	public DataResult<List<CoverLetter>> getAllByCandidateId(@RequestParam int candidateId) {
+		return coverLetterService.getAllByCandidateId(candidateId);
 	}
 
 }
