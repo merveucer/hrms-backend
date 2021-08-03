@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.data.domain.PageRequest;
@@ -101,17 +102,30 @@ public class JobPostingManager implements JobPostingService {
 		update(jobPosting);
 		return new SuccessResult(statusMessage);
 	}
+	
+	@Override
+	public DataResult<List<JobPosting>> getAllActiveOnes() {		
+		return new SuccessDataResult<List<JobPosting>>(jobPostingDao.getByIsActive(true));
+	}
 
 	@Override
-	public DataResult<List<JobPosting>> getAllActiveOnes(int pageNo, int pageSize) {
+	public DataResult<List<JobPosting>> getAllActiveOnesByPage(int pageNo, int pageSize) {
 
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 
 		return new SuccessDataResult<List<JobPosting>>(jobPostingDao.getByIsActive(true, pageable));
 	}
+	
+	@Override
+	public DataResult<List<JobPosting>> getAllActiveOnesSortedByPostingDate() {
+		
+		Sort sort = Sort.by(Sort.Direction.DESC, "postingDate");
+		
+		return new SuccessDataResult<List<JobPosting>>(jobPostingDao.getByIsActive(true, sort));
+	}
 
 	@Override
-	public DataResult<List<JobPosting>> getAllActiveOnesSortedByPostingDate(int pageNo, int pageSize) {
+	public DataResult<List<JobPosting>> getAllActiveOnesByPageSortedByPostingDate(int pageNo, int pageSize) {
 
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("postingDate").descending());
 
@@ -121,7 +135,7 @@ public class JobPostingManager implements JobPostingService {
 	@Override
 	public DataResult<List<JobPosting>> getAllActiveOnesSortedByPostingDateTop6() {
 
-		List<JobPosting> result = getAllActiveOnesSortedByPostingDate(1, 6).getData();
+		List<JobPosting> result = getAllActiveOnesByPageSortedByPostingDate(1, 6).getData();
 
 		return new SuccessDataResult<List<JobPosting>>(result);
 	}
@@ -130,12 +144,28 @@ public class JobPostingManager implements JobPostingService {
 	public DataResult<List<JobPosting>> getAllActiveOnesByEmployerId(int employerId) {
 		return new SuccessDataResult<List<JobPosting>>(jobPostingDao.getByIsActiveAndEmployer_Id(true, employerId));
 	}
+	
+	@Override
+	public DataResult<List<JobPosting>> getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCity(int workingTimeId, int workingTypeId, int cityId) {
+		
+		List<JobPosting> result = getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCityBase(workingTimeId, workingTypeId, cityId);
+		
+		return new SuccessDataResult<List<JobPosting>>(result);
+	}
 
 	@Override
-	public DataResult<List<JobPosting>> getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCity(
-			int workingTimeId, int workingTypeId, int cityId, int pageNo, int pageSize) {
+	public DataResult<List<JobPosting>> getAllActiveOnesByPageFilteredByWorkingTimeAndWorkingTypeAndCity(int workingTimeId, int workingTypeId, int cityId, int pageNo, int pageSize) {
+		
+		int skipCount = (pageNo -1) * pageSize;	     
+		
+		List<JobPosting> result = getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCityBase(workingTimeId, workingTypeId, cityId);	
 
-		Stream<JobPosting> stream = getAllActiveOnes(pageNo, pageSize).getData().stream();
+		return new SuccessDataResult<List<JobPosting>>(result.stream().skip(skipCount).limit(pageSize).collect(Collectors.toList()));
+	}
+	
+	private List<JobPosting> getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCityBase(int workingTimeId, int workingTypeId, int cityId) {
+		
+		Stream<JobPosting> stream = getAllActiveOnes().getData().stream();
 
 		Predicate<JobPosting> workingTimeCondition = jobPosting -> jobPosting.getWorkingTime().getId() == workingTimeId;
 		Predicate<JobPosting> workingTypeCondition = jobPosting -> jobPosting.getWorkingType().getId() == workingTypeId;
@@ -158,10 +188,10 @@ public class JobPostingManager implements JobPostingService {
 		} else if (workingTimeId != 0 && workingTypeId != 0 && cityId != 0) {
 			stream.filter(workingTimeCondition).filter(workingTypeCondition).filter(cityCondition).forEach(jobPosting -> result.add(jobPosting));
 		} else {
-			return new SuccessDataResult<List<JobPosting>>(getAllActiveOnes(pageNo, pageSize).getData());
+			return getAllActiveOnes().getData();
 		}
 
-		return new SuccessDataResult<List<JobPosting>>(result);
+		return result;
 	}
 
 }
