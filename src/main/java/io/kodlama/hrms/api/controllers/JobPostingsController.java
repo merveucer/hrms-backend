@@ -15,20 +15,19 @@ import io.kodlama.hrms.business.abstracts.JobPostingService;
 import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.entities.concretes.JobPosting;
-import io.kodlama.hrms.entities.dtos.JobPostingWithEmployerAndJobTitleDto;
 
 @RestController
 @RequestMapping("/api/jobPostings")
 @CrossOrigin
 public class JobPostingsController {
-	
+
 	private JobPostingService jobPostingService;
 
 	@Autowired
 	public JobPostingsController(JobPostingService jobPostingService) {
 		this.jobPostingService = jobPostingService;
 	}
-	
+
 	@PostMapping("/add")
 	public Result add(@RequestBody JobPosting jobPosting) {
 		return jobPostingService.add(jobPosting);
@@ -48,35 +47,41 @@ public class JobPostingsController {
 	public DataResult<JobPosting> getById(@RequestParam int id) {
 		return jobPostingService.getById(id);
 	}
-	
+
 	@PostMapping("/confirm")
-	public Result confirm(@RequestParam int jobPostingId, @RequestParam int companyStaffId, @RequestParam boolean isConfirmed) {
+	public Result confirm(@RequestParam int jobPostingId, @RequestParam int companyStaffId,	@RequestParam boolean isConfirmed) {
 		return jobPostingService.confirm(jobPostingId, companyStaffId, isConfirmed);
 	}
-	
+
 	@PostMapping("/doActiveOrPassive")
 	public Result doActiveOrPassive(@RequestParam int id, @RequestParam boolean isActive) {
 		return jobPostingService.doActiveOrPassive(id, isActive);
 	}
-	
-	@GetMapping("/getAllActiveJobPostingDetails")
-	public DataResult<List<JobPostingWithEmployerAndJobTitleDto>> getAllActiveJobPostingDetails() {
-		return jobPostingService.getAllActiveJobPostingDetails();
+
+	@GetMapping("/getAllActiveJobPosting")
+	public DataResult<List<JobPosting>> getAllActiveJobPosting(@RequestParam int pageNo, @RequestParam int pageSize) {
+		return jobPostingService.getAllActiveJobPosting(pageNo, pageSize);
 	}
-	
-	@GetMapping("/getAllActiveJobPostingDetailsSortedByPostingDate")
-	public DataResult<List<JobPostingWithEmployerAndJobTitleDto>> getAllActiveJobPostingDetailsSortedByPostingDate() {
-		return jobPostingService.getAllActiveJobPostingDetailsSortedByPostingDate();
+
+	@GetMapping("/getAllActiveJobPostingSortedByPostingDate")
+	public DataResult<List<JobPosting>> getAllActiveJobPostingSortedByPostingDate(@RequestParam int pageNo,	@RequestParam int pageSize) {
+		return jobPostingService.getAllActiveJobPostingSortedByPostingDate(pageNo, pageSize);
 	}
-	
-	@GetMapping("/getAllActiveJobPostingDetailsSortedByPostingDateTop6")
-	public DataResult<List<JobPostingWithEmployerAndJobTitleDto>> getAllActiveJobPostingDetailsSortedByPostingDateTop6() {
-		return jobPostingService.getAllActiveJobPostingDetailsSortedByPostingDateTop6();
+
+	@GetMapping("/getAllActiveJobPostingSortedByPostingDateTop6")
+	public DataResult<List<JobPosting>> getAllActiveJobPostingSortedByPostingDateTop6() {
+		return jobPostingService.getAllActiveJobPostingSortedByPostingDateTop6();
 	}
-	
-	@GetMapping("/getAllActiveJobPostingDetailsByCompanyName")
-	public DataResult<List<JobPostingWithEmployerAndJobTitleDto>> getAllActiveJobPostingDetailsByCompanyName(@RequestParam String companyName) {
-		return jobPostingService.getAllActiveJobPostingDetailsByCompanyName(companyName);
+
+	@GetMapping("/getAllActiveJobPostingByEmployerId")
+	public DataResult<List<JobPosting>> getAllActiveJobPostingByEmployerId(@RequestParam int employerId) {
+		return jobPostingService.getAllActiveJobPostingByEmployerId(employerId);
+	}
+
+	@GetMapping("/getAllActiveJobPostingFilteredByWorkingTimeAndWorkingTypeAndCity")
+	public DataResult<List<JobPosting>> getAllActiveJobPostingFilteredByWorkingTimeAndWorkingTypeAndCity(@RequestParam int workingTimeId,
+			@RequestParam int workingTypeId, @RequestParam int cityId, @RequestParam int pageNo, @RequestParam int pageSize) {
+		return jobPostingService.getAllActiveJobPostingFilteredByWorkingTimeAndWorkingTypeAndCity(workingTimeId, workingTypeId, cityId, pageNo, pageSize);
 	}
 
 }

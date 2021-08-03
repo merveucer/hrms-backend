@@ -51,7 +51,7 @@ public class JobPosting {
 
 	@Column(name = "is_active")
 	private boolean isActive;
-	
+
 	@Column(name = "is_confirmed")
 	private boolean isConfirmed;
 
@@ -66,13 +66,13 @@ public class JobPosting {
 	@ManyToOne()
 	@JoinColumn(name = "city_id")
 	private City city;
-	
-	@ManyToOne()
-	@JoinColumn(name = "working_type_id")
-	private WorkingType workingType;
-	
+
 	@ManyToOne()
 	@JoinColumn(name = "working_time_id")
 	private WorkingTime workingTime;
+
+	@ManyToOne()
+	@JoinColumn(name = "working_type_id")
+	private WorkingType workingType;
 
 }
