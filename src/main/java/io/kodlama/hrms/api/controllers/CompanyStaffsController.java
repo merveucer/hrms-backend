@@ -38,11 +38,6 @@ public class CompanyStaffsController {
 		return companyStaffService.update(companyStaff);
 	}
 
-	@PostMapping("/delete")
-	public Result delete(@RequestBody CompanyStaff companyStaff) {
-		return companyStaffService.delete(companyStaff);
-	}
-
 	@GetMapping("/getAll")
 	public DataResult<List<CompanyStaff>> getAll() {
 		return companyStaffService.getAll();

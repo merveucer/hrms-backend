@@ -38,11 +38,6 @@ public class CitiesController {
 		return cityService.update(city);
 	}
 
-	@PostMapping("/delete")
-	public Result delete(@RequestBody City city) {
-		return cityService.delete(city);
-	}
-
 	@GetMapping("/getAll")
 	public DataResult<List<City>> getAll() {
 		return cityService.getAll();

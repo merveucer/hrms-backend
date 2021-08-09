@@ -38,11 +38,6 @@ public class LevelsController {
 		return levelService.update(level);
 	}
 	
-	@PostMapping("/delete")
-	public Result delete(@RequestBody Level level) {
-		return levelService.delete(level);
-	}
-	
 	@GetMapping("/getAll")
 	public DataResult<List<Level>> getAll() {
 		return levelService.getAll();

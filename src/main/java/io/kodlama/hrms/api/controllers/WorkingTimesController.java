@@ -38,11 +38,6 @@ public class WorkingTimesController {
 		return workingTimeService.update(workingTime);
 	}
 	
-	@PostMapping("/delete")
-	public Result delete(@RequestBody WorkingTime workingTime) {
-		return workingTimeService.delete(workingTime);
-	}
-	
 	@GetMapping("/getAll")
 	public DataResult<List<WorkingTime>> getAll() {
 		return workingTimeService.getAll();

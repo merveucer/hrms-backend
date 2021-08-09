@@ -38,11 +38,6 @@ public class WorkingTypesController {
 		return workingTypeService.update(workingType);
 	}
 	
-	@PostMapping("/delete")
-	public Result delete(@RequestBody WorkingType workingType) {
-		return workingTypeService.delete(workingType);
-	}
-	
 	@GetMapping("/getAll")
 	public DataResult<List<WorkingType>> getAll() {
 		return workingTypeService.getAll();

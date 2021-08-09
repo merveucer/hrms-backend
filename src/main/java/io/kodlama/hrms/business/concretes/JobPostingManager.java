@@ -84,6 +84,7 @@ public class JobPostingManager implements JobPostingService {
 			return new ErrorResult("İş ilanı onaylanmadı.");
 		}
 
+		jobPosting.setActive(true);
 		jobPosting.setConfirmed(isConfirmed);
 
 		jobPostingDao.save(jobPosting);
@@ -92,7 +93,7 @@ public class JobPostingManager implements JobPostingService {
 	}
 
 	@Override
-	public Result doActiveOrPassive(int id, boolean isActive) {
+	public Result makeActiveOrPassive(int id, boolean isActive) {
 
 		String statusMessage = isActive ? "İlan aktifleştirildi." : "İlan pasifleştirildi.";
 
@@ -146,49 +147,66 @@ public class JobPostingManager implements JobPostingService {
 	}
 	
 	@Override
-	public DataResult<List<JobPosting>> getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCity(int workingTimeId, int workingTypeId, int cityId) {
+	public DataResult<List<JobPosting>> getAllActiveOnesFilteredByCityAndJobTitleAndWorkingTimeAndWorkingType(int cityId, int jobTitleId, int workingTimeId, int workingTypeId) {
 		
-		List<JobPosting> result = getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCityBase(workingTimeId, workingTypeId, cityId);
+		List<JobPosting> result = getAllActiveOnesFilteredByCityAndJobTitleAndWorkingTimeAndWorkingTypeBase(cityId, jobTitleId, workingTimeId, workingTypeId);
 		
 		return new SuccessDataResult<List<JobPosting>>(result);
 	}
 
 	@Override
-	public DataResult<List<JobPosting>> getAllActiveOnesByPageFilteredByWorkingTimeAndWorkingTypeAndCity(int workingTimeId, int workingTypeId, int cityId, int pageNo, int pageSize) {
+	public DataResult<List<JobPosting>> getAllActiveOnesByPageFilteredByCityAndJobTitleAndWorkingTimeAndWorkingType(int cityId, int jobTitleId, int workingTimeId, int workingTypeId, int pageNo, int pageSize) {
 		
 		int skipCount = (pageNo -1) * pageSize;	     
 		
-		List<JobPosting> result = getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCityBase(workingTimeId, workingTypeId, cityId);	
+		List<JobPosting> result = getAllActiveOnesFilteredByCityAndJobTitleAndWorkingTimeAndWorkingTypeBase(cityId, jobTitleId, workingTimeId, workingTypeId);	
 
 		return new SuccessDataResult<List<JobPosting>>(result.stream().skip(skipCount).limit(pageSize).collect(Collectors.toList()));
 	}
 	
-	private List<JobPosting> getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCityBase(int workingTimeId, int workingTypeId, int cityId) {
+	private List<JobPosting> getAllActiveOnesFilteredByCityAndJobTitleAndWorkingTimeAndWorkingTypeBase(int cityId, int jobTitleId, int workingTimeId, int workingTypeId) {
 		
-		Stream<JobPosting> stream = getAllActiveOnes().getData().stream();
+		Stream<JobPosting> stream = getAllActiveOnesSortedByPostingDate().getData().stream();
 
 		Predicate<JobPosting> workingTimeCondition = jobPosting -> jobPosting.getWorkingTime().getId() == workingTimeId;
 		Predicate<JobPosting> workingTypeCondition = jobPosting -> jobPosting.getWorkingType().getId() == workingTypeId;
 		Predicate<JobPosting> cityCondition = jobPosting -> jobPosting.getCity().getId() == cityId;
+		Predicate<JobPosting> jobTitleCondition = jobPosting -> jobPosting.getJobTitle().getId() == jobTitleId;
 
 		List<JobPosting> result = new ArrayList<JobPosting>();
 
-		if (workingTimeId == 0 && workingTypeId != 0 && cityId != 0) {
-			stream.filter(workingTypeCondition).filter(cityCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId != 0 && workingTypeId == 0 && cityId != 0) {
-			stream.filter(workingTimeCondition).filter(cityCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId != 0 && workingTypeId != 0 && cityId == 0) {
-			stream.filter(workingTimeCondition).filter(workingTypeCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId == 0 && workingTypeId == 0 && cityId != 0) {
-			stream.filter(cityCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId == 0 && workingTypeId != 0 && cityId == 0) {
-			stream.filter(workingTypeCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId != 0 && workingTypeId == 0 && cityId == 0) {
-			stream.filter(workingTimeCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId != 0 && workingTypeId != 0 && cityId != 0) {
+		if (workingTimeId == 0 && workingTypeId != 0 && cityId != 0 && jobTitleId != 0) {
+			stream.filter(workingTypeCondition).filter(cityCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
+		} else if (workingTimeId != 0 && workingTypeId == 0 && cityId != 0 && jobTitleId != 0) {
+			stream.filter(workingTimeCondition).filter(cityCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
+		} else if (workingTimeId != 0 && workingTypeId != 0 && cityId == 0 && jobTitleId != 0) {
+			stream.filter(workingTimeCondition).filter(workingTypeCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
+		} else if (workingTimeId != 0 && workingTypeId != 0 && cityId != 0 && jobTitleId == 0) {
 			stream.filter(workingTimeCondition).filter(workingTypeCondition).filter(cityCondition).forEach(jobPosting -> result.add(jobPosting));
+		} else if (workingTimeId == 0 && workingTypeId == 0 && cityId != 0 && jobTitleId != 0) {
+			stream.filter(cityCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
+		} else if (workingTimeId == 0 && workingTypeId != 0 && cityId == 0 && jobTitleId != 0) {
+			stream.filter(workingTypeCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
+		} else if (workingTimeId == 0 && workingTypeId != 0 && cityId != 0 && jobTitleId == 0) {
+			stream.filter(workingTypeCondition).filter(cityCondition).forEach(jobPosting -> result.add(jobPosting));
+		} else if (workingTimeId != 0 && workingTypeId == 0 && cityId == 0 && jobTitleId != 0) {
+			stream.filter(workingTimeCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
+		} else if (workingTimeId != 0 && workingTypeId == 0 && cityId != 0 && jobTitleId == 0) {
+			stream.filter(workingTimeCondition).filter(cityCondition).forEach(jobPosting -> result.add(jobPosting));
+		} else if (workingTimeId != 0 && workingTypeId != 0 && cityId == 0 && jobTitleId == 0) {
+			stream.filter(workingTimeCondition).filter(workingTypeCondition).forEach(jobPosting -> result.add(jobPosting));
+		} else if (workingTimeId == 0 && workingTypeId == 0 && cityId == 0 && jobTitleId != 0) {
+			stream.filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
+		} else if (workingTimeId == 0 && workingTypeId == 0 && cityId != 0 && jobTitleId == 0) {
+			stream.filter(cityCondition).forEach(jobPosting -> result.add(jobPosting));
+		} else if (workingTimeId == 0 && workingTypeId != 0 && cityId == 0 && jobTitleId == 0) {
+			stream.filter(workingTypeCondition).forEach(jobPosting -> result.add(jobPosting));
+		} else if (workingTimeId != 0 && workingTypeId == 0 && cityId == 0 && jobTitleId == 0) {
+			stream.filter(workingTimeCondition).forEach(jobPosting -> result.add(jobPosting));
+		} else if (workingTimeId != 0 && workingTypeId != 0 && cityId != 0 && jobTitleId != 0) {
+			stream.filter(workingTimeCondition).filter(workingTypeCondition).filter(cityCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
 		} else {
-			return getAllActiveOnes().getData();
+			return getAllActiveOnesSortedByPostingDate().getData();
 		}
 
 		return result;

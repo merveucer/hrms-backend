@@ -35,7 +35,7 @@ public class JobPostingConfirmation {
 	private LocalDateTime isConfirmedDate;
 
 	@OneToOne()
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "job_posting_id")
 	private JobPosting jobPosting;
 
 	@ManyToOne()

@@ -10,7 +10,7 @@ public interface JobPostingService extends BaseEntityService<JobPosting> {
 
 	Result confirm(int employerId, int companyStaffId, boolean isConfirmed);
 
-	Result doActiveOrPassive(int id, boolean isActive);
+	Result makeActiveOrPassive(int id, boolean isActive);
 	
 	DataResult<List<JobPosting>> getAllActiveOnes();
 
@@ -24,8 +24,8 @@ public interface JobPostingService extends BaseEntityService<JobPosting> {
 
 	DataResult<List<JobPosting>> getAllActiveOnesByEmployerId(int employerId);
 	
-	DataResult<List<JobPosting>> getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCity(int workingTimeId, int workingTypeId, int cityId);
+	DataResult<List<JobPosting>> getAllActiveOnesFilteredByCityAndJobTitleAndWorkingTimeAndWorkingType(int cityId, int jobTitleId, int workingTimeId, int workingTypeId);
 
-	DataResult<List<JobPosting>> getAllActiveOnesByPageFilteredByWorkingTimeAndWorkingTypeAndCity(int workingTimeId, int workingTypeId, int cityId, int pageNo, int pageSize);
+	DataResult<List<JobPosting>> getAllActiveOnesByPageFilteredByCityAndJobTitleAndWorkingTimeAndWorkingType(int cityId, int jobTitleId, int workingTimeId, int workingTypeId, int pageNo, int pageSize);
 
 }

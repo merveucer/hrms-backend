@@ -38,11 +38,6 @@ public class JobTitlesController {
 		return jobTitleService.update(jobTitle);
 	}
 
-	@PostMapping("/delete")
-	public Result delete(@RequestBody JobTitle jobTitle) {
-		return jobTitleService.delete(jobTitle);
-	}
-
 	@GetMapping("/getAll")
 	public DataResult<List<JobTitle>> getAll() {
 		return jobTitleService.getAll();

@@ -33,11 +33,6 @@ public class JobPostingsController {
 		return jobPostingService.add(jobPosting);
 	}
 
-	@PostMapping("/delete")
-	public Result delete(@RequestBody JobPosting jobPosting) {
-		return jobPostingService.delete(jobPosting);
-	}
-
 	@GetMapping("/getAll")
 	public DataResult<List<JobPosting>> getAll() {
 		return jobPostingService.getAll();
@@ -53,9 +48,9 @@ public class JobPostingsController {
 		return jobPostingService.confirm(jobPostingId, companyStaffId, isConfirmed);
 	}
 
-	@PostMapping("/doActiveOrPassive")
-	public Result doActiveOrPassive(@RequestParam int id, @RequestParam boolean isActive) {
-		return jobPostingService.doActiveOrPassive(id, isActive);
+	@PostMapping("/makeActiveOrPassive")
+	public Result makeActiveOrPassive(@RequestParam int id, @RequestParam boolean isActive) {
+		return jobPostingService.makeActiveOrPassive(id, isActive);
 	}
 	
 	@GetMapping("/getAllActiveOnes")
@@ -88,16 +83,16 @@ public class JobPostingsController {
 		return jobPostingService.getAllActiveOnesByEmployerId(employerId);
 	}
 	
-	@GetMapping("/getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCity")
-	public DataResult<List<JobPosting>> getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCity(@RequestParam int workingTimeId,
-			@RequestParam int workingTypeId, @RequestParam int cityId) {
-		return jobPostingService.getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCity(workingTimeId, workingTypeId, cityId);
+	@GetMapping("/getAllActiveOnesFilteredByCityAndJobTitleAndWorkingTimeAndWorkingType")
+	public DataResult<List<JobPosting>> getAllActiveOnesFilteredByWorkingTimeAndWorkingTypeAndCityAndJobTitle(@RequestParam int cityId, @RequestParam int jobTitleId,
+			@RequestParam int workingTimeId, @RequestParam int workingTypeId) {
+		return jobPostingService.getAllActiveOnesFilteredByCityAndJobTitleAndWorkingTimeAndWorkingType(cityId, jobTitleId, workingTimeId, workingTypeId);
 	}
 
-	@GetMapping("/getAllActiveOnesByPageFilteredByWorkingTimeAndWorkingTypeAndCity")
-	public DataResult<List<JobPosting>> getAllActiveOnesByPageFilteredByWorkingTimeAndWorkingTypeAndCity(@RequestParam int workingTimeId,
-			@RequestParam int workingTypeId, @RequestParam int cityId, @RequestParam int pageNo, @RequestParam int pageSize) {
-		return jobPostingService.getAllActiveOnesByPageFilteredByWorkingTimeAndWorkingTypeAndCity(workingTimeId, workingTypeId, cityId, pageNo, pageSize);
+	@GetMapping("/getAllActiveOnesByPageFilteredByCityAndJobTitleAndWorkingTimeAndWorkingType")
+	public DataResult<List<JobPosting>> getAllActiveOnesByPageFilteredByCityAndJobTitleAndWorkingTimeAndWorkingType(@RequestParam int cityId, @RequestParam int jobTitleId,
+			@RequestParam int workingTimeId, @RequestParam int workingTypeId, @RequestParam int pageNo, @RequestParam int pageSize) {
+		return jobPostingService.getAllActiveOnesByPageFilteredByCityAndJobTitleAndWorkingTimeAndWorkingType(cityId, jobTitleId, workingTimeId, workingTypeId, pageNo, pageSize);
 	}
 
 }
