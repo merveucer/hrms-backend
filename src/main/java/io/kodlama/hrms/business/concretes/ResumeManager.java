@@ -1,6 +1,7 @@
 package io.kodlama.hrms.business.concretes;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,20 @@ public class ResumeManager implements ResumeService {
 
 		update(resume);
 		return new SuccessResult("Ön yazı özgeçmişe eklendi.");
+	}
+	
+	@Override
+	public DataResult<List<ResumeWithAllRelatedEntitiesDto>> getAllResumesDetailsByActivatedCandidate() {
+		
+		List<ResumeWithAllRelatedEntitiesDto> resumes = new ArrayList<ResumeWithAllRelatedEntitiesDto>();
+		
+		for (Resume resume : getAll().getData()) {
+			if (resume.getCandidate().isActivated() == true ) {
+				resumes.add(getResumeDetailsByCandidateId(resume.getCandidate().getId()).getData());
+			}			
+		};
+		
+		return new SuccessDataResult<List<ResumeWithAllRelatedEntitiesDto>>(resumes);
 	}
 
 	@Override
