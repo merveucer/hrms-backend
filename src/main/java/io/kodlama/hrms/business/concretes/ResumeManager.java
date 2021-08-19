@@ -49,6 +49,9 @@ public class ResumeManager implements ResumeService {
 
 	@Override
 	public Result update(Resume resume) {
+		
+		resume = getById(resume.getId()).getData();		
+		resume.setCreationDate(LocalDateTime.now());
 
 		resumeDao.save(resume);
 		return new SuccessResult("Özgeçmiş güncellendi.");

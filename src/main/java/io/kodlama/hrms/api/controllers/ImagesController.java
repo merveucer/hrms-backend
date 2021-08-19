@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import io.kodlama.hrms.business.abstracts.ImageService;
 import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.Result;
@@ -47,6 +46,11 @@ public class ImagesController {
 	@PostMapping("/upload")
 	public Result upload(@RequestParam int userId, @RequestParam MultipartFile file) {
 		return imageService.upload(userId, file);
+	}
+	
+	@GetMapping("/getByUserId")
+	public DataResult<Image> getByUserId(@RequestParam int userId) {
+		return imageService.getById(userId);
 	}
 
 }

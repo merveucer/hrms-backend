@@ -65,5 +65,9 @@ public class Resume {
 	@JsonIgnore
 	@OneToMany(mappedBy = "resume")
 	private List<Skill> skills;
+	
+	public Resume(Candidate candidate) {
+		this.setCandidate(candidate);
+	}
 
 }

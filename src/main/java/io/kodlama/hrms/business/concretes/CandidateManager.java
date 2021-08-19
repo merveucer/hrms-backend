@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.CandidateService;
+import io.kodlama.hrms.business.abstracts.ResumeService;
 import io.kodlama.hrms.business.abstracts.UserActivationService;
 import io.kodlama.hrms.business.abstracts.UserService;
 import io.kodlama.hrms.business.adapters.mernis.UserCheckService;
@@ -17,19 +18,22 @@ import io.kodlama.hrms.core.utilities.results.SuccessDataResult;
 import io.kodlama.hrms.core.utilities.results.SuccessResult;
 import io.kodlama.hrms.dataAccess.abstracts.CandidateDao;
 import io.kodlama.hrms.entities.concretes.Candidate;
+import io.kodlama.hrms.entities.concretes.Resume;
 import io.kodlama.hrms.entities.concretes.UserActivation;
 
 @Service
 public class CandidateManager implements CandidateService {
 
 	private CandidateDao candidateDao;
+	private ResumeService resumeService;
 	private UserService userService;
 	private UserCheckService userCheckService;
 	private UserActivationService userActivationService;
 
 	@Autowired
-	public CandidateManager(CandidateDao candidateDao, UserService userService, UserCheckService userCheckService, UserActivationService userActivationService) {
+	public CandidateManager(CandidateDao candidateDao, ResumeService resumeService, UserService userService, UserCheckService userCheckService, UserActivationService userActivationService) {
 		this.candidateDao = candidateDao;
+		this.resumeService = resumeService;
 		this.userService = userService;
 		this.userCheckService = userCheckService;
 		this.userActivationService = userActivationService;
@@ -41,8 +45,9 @@ public class CandidateManager implements CandidateService {
 		validateCandidate(candidate);
 
 		candidate.setActivated(false);
-
+		
 		candidateDao.save(candidate);
+		resumeService.add(new Resume(candidate));		
 		return userActivationService.add(new UserActivation(candidate));
 	}
 
