@@ -34,5 +34,10 @@ public class UserConfirmationsController {
 	public DataResult<UserConfirmation> getById(@RequestParam int id) {
 		return userConfirmationService.getById(id);
 	}
-
+	
+	@GetMapping("/getAllByUserId")
+	DataResult<List<UserConfirmation>> getAllByUserId(@RequestParam int userId) {
+		return userConfirmationService.getAllByUserId(userId);
+	}
+	
 }

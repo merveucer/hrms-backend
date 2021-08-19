@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.EmailService;
 import io.kodlama.hrms.business.abstracts.UserActivationService;
-import io.kodlama.hrms.core.entities.User;
 import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.core.utilities.results.SuccessDataResult;
@@ -69,8 +68,8 @@ public class UserActivationManager implements UserActivationService {
 	}
 
 	@Override
-	public DataResult<UserActivation> getByUser(User user) {
-		return new SuccessDataResult<UserActivation>(userActivationDao.getByUser(user));
+	public DataResult<UserActivation> getByUserId(int userId) {
+		return new SuccessDataResult<UserActivation>(userActivationDao.getByUser_Id(userId));
 	}
 
 	private String generateCode() {
