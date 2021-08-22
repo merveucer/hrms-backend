@@ -38,9 +38,9 @@ public class UpdatedEmployerManager implements UpdatedEmployerService {
 	}
 
 	@Override
-	public Result delete(UpdatedEmployer updatedEmployer) {
+	public Result delete(int id) {
 
-		updatedEmployerDao.delete(updatedEmployer);
+		updatedEmployerDao.deleteById(id);
 		return new SuccessResult("Güncellenmiş işveren silindi.");
 	}
 

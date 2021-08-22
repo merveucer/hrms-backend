@@ -38,9 +38,9 @@ public class CityManager implements CityService {
 	}
 
 	@Override
-	public Result delete(City city) {
+	public Result delete(int id) {
 
-		cityDao.delete(city);
+		cityDao.deleteById(id);
 		return new SuccessResult("Şehir silindi.");
 	}
 

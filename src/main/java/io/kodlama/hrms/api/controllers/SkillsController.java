@@ -41,8 +41,8 @@ public class SkillsController {
 	}
 
 	@DeleteMapping("/delete")
-	public Result delete(@RequestBody Skill skill) {
-		return skillService.delete(skill);
+	public Result delete(@RequestParam int id) {
+		return skillService.delete(id);
 	}
 
 	@GetMapping("/getAll")

@@ -11,7 +11,7 @@ public interface BaseEntityService<T> {
 
 	Result update(T entity);
 
-	Result delete(T entity);
+	Result delete(int id);
 
 	DataResult<List<T>> getAll();
 

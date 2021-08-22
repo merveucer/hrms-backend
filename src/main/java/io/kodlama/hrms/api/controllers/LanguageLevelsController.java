@@ -41,8 +41,8 @@ public class LanguageLevelsController {
 	}
 
 	@DeleteMapping("/delete")
-	public Result delete(@RequestBody LanguageLevel languageLevel) {
-		return languageLevelService.delete(languageLevel);
+	public Result delete(@RequestParam int id) {
+		return languageLevelService.delete(id);
 	}
 
 	@GetMapping("/getAll")

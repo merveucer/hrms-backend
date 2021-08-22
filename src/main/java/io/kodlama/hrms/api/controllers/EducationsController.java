@@ -41,8 +41,8 @@ public class EducationsController {
 	}
 
 	@DeleteMapping("/delete")
-	public Result delete(@RequestBody Education education) {
-		return educationService.delete(education);
+	public Result delete(@RequestParam int id) {
+		return educationService.delete(id);
 	}
 
 	@GetMapping("/getAll")

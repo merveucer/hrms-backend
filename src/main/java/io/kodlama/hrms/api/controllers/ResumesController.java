@@ -42,8 +42,8 @@ public class ResumesController {
 	}
 
 	@DeleteMapping("/delete")
-	public Result delete(@RequestBody Resume resume) {
-		return resumeService.delete(resume);
+	public Result delete(@RequestParam int id) {
+		return resumeService.delete(id);
 	}
 
 	@GetMapping("/getAll")

@@ -80,9 +80,9 @@ public class EmployerManager implements EmployerService {
 	}
 
 	@Override
-	public Result delete(Employer employer) {
+	public Result delete(int id) {
 
-		employerDao.delete(employer);
+		employerDao.deleteById(id);
 		return new SuccessResult("İşveren silindi.");
 	}
 
@@ -125,8 +125,8 @@ public class EmployerManager implements EmployerService {
 		int numberOfUserConfirmations = userConfirmationService.getAllByUserId(employerId).getData().size();
 
 		if (!isConfirmed && numberOfUserConfirmations == 0) {
-			userActivationService.delete(userActivationService.getByUserId(employer.getId()).getData());
-			delete(employer);
+			userActivationService.delete(userActivationService.getByUserId(employer.getId()).getData().getId());
+			delete(employer.getId());
 			return new ErrorResult("İşveren onaylanmadı.");
 		}
 
@@ -149,7 +149,7 @@ public class EmployerManager implements EmployerService {
 		employer.setConfirmed(isConfirmed);
 
 		employerDao.save(employer);
-		updatedEmployerService.delete(updatedEmployer);
+		updatedEmployerService.delete(updatedEmployer.getId());
 		userConfirmationService.add(new UserConfirmation(employer, companyStaff));
 		return new SuccessResult("İşveren onaylandı.");
 	}

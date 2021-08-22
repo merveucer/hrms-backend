@@ -45,9 +45,9 @@ public class UserConfirmationManager implements UserConfirmationService {
 	}
 
 	@Override
-	public Result delete(UserConfirmation userConfirmation) {
+	public Result delete(int id) {
 
-		userConfirmationDao.delete(userConfirmation);
+		userConfirmationDao.deleteById(id);
 		return new SuccessResult();
 	}
 

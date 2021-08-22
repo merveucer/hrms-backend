@@ -41,8 +41,8 @@ public class LinksController {
 	}
 
 	@DeleteMapping("/delete")
-	public Result delete(@RequestBody Link link) {
-		return linkService.delete(link);
+	public Result delete(@RequestParam int id) {
+		return linkService.delete(id);
 	}
 
 	@GetMapping("/getAll")

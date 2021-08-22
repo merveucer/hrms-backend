@@ -41,8 +41,8 @@ public class ExperiencesController {
 	}
 
 	@DeleteMapping("/delete")
-	public Result delete(@RequestBody Experience experience) {
-		return experienceService.delete(experience);
+	public Result delete(@RequestParam int id) {
+		return experienceService.delete(id);
 	}
 
 	@GetMapping("/getAll")

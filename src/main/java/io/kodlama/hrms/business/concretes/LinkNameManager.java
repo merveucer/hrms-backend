@@ -38,9 +38,9 @@ public class LinkNameManager implements LinkNameService {
 	}
 
 	@Override
-	public Result delete(LinkName linkName) {
+	public Result delete(int id) {
 
-		linkNameDao.delete(linkName);
+		linkNameDao.deleteById(id);
 		return new SuccessResult("Bağlantı adı silindi.");
 	}
 

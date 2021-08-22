@@ -38,9 +38,9 @@ public class LinkManager implements LinkService {
 	}
 
 	@Override
-	public Result delete(Link link) {
+	public Result delete(int id) {
 
-		linkDao.delete(link);
+		linkDao.deleteById(id);
 		return new SuccessResult("Link silindi.");
 	}
 

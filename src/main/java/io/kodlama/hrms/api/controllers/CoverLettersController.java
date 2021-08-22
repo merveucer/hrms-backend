@@ -41,8 +41,8 @@ public class CoverLettersController {
 	}
 
 	@DeleteMapping("/delete")
-	public Result delete(@RequestBody CoverLetter coverLetter) {
-		return coverLetterService.delete(coverLetter);
+	public Result delete(@RequestParam int id) {
+		return coverLetterService.delete(id);
 	}
 
 	@GetMapping("/getAll")

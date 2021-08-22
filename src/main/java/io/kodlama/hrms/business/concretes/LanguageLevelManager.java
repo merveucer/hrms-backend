@@ -38,9 +38,9 @@ public class LanguageLevelManager implements LanguageLevelService {
 	}
 
 	@Override
-	public Result delete(LanguageLevel languageLevel) {
+	public Result delete(int id) {
 
-		languageLevelDao.delete(languageLevel);
+		languageLevelDao.deleteById(id);
 		return new SuccessResult("Dil seviyesi silindi.");
 	}
 

@@ -39,9 +39,9 @@ public class EducationManager implements EducationService {
 	}
 
 	@Override
-	public Result delete(Education education) {
+	public Result delete(int id) {
 
-		educationDao.delete(education);
+		educationDao.deleteById(id);
 		return new SuccessResult("Eğitim silindi.");
 	}
 

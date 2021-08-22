@@ -57,9 +57,9 @@ public class JobPostingManager implements JobPostingService {
 	}
 
 	@Override
-	public Result delete(JobPosting jobPosting) {
+	public Result delete(int id) {
 
-		jobPostingDao.delete(jobPosting);
+		jobPostingDao.deleteById(id);
 		return new SuccessResult("İş ilanı silindi.");
 	}
 
@@ -80,7 +80,7 @@ public class JobPostingManager implements JobPostingService {
 		CompanyStaff companyStaff = companyStaffService.getById(companyStaffId).getData();
 
 		if (!isConfirmed) {
-			delete(jobPosting);
+			delete(jobPosting.getId());
 			return new ErrorResult("İş ilanı onaylanmadı.");
 		}
 

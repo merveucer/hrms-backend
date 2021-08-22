@@ -38,9 +38,9 @@ public class CoverLetterManager implements CoverLetterService {
 	}
 
 	@Override
-	public Result delete(CoverLetter coverLetter) {
+	public Result delete(int id) {
 
-		coverLetterDao.delete(coverLetter);
+		coverLetterDao.deleteById(id);
 		return new SuccessResult("Ön yazı silindi.");
 	}
 

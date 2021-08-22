@@ -46,14 +46,16 @@ public class ImageManager implements ImageService {
 	}
 
 	@Override
-	public Result delete(Image image) {
+	public Result delete(int id) {
+		
+		Image image = getById(id).getData();
 
 		String[] splitImageUrlArray = image.getUrl().split("/");
 		int indexOfExtension = splitImageUrlArray[splitImageUrlArray.length - 1].indexOf(".");
 		String publicIdOfImage = splitImageUrlArray[splitImageUrlArray.length - 1].substring(0, indexOfExtension);
 
 		cloudStorageService.delete(publicIdOfImage);
-		imageDao.delete(image);
+		imageDao.deleteById(id);
 		return new SuccessResult("İmaj silindi.");
 	}
 

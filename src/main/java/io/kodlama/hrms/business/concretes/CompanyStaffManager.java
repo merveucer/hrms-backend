@@ -38,9 +38,9 @@ public class CompanyStaffManager implements CompanyStaffService {
 	}
 
 	@Override
-	public Result delete(CompanyStaff companyStaff) {
+	public Result delete(int id) {
 
-		companyStaffDao.delete(companyStaff);
+		companyStaffDao.deleteById(id);
 		return new SuccessResult("Şirket personeli silindi.");
 	}
 

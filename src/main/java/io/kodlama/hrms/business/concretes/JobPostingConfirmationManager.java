@@ -45,9 +45,9 @@ public class JobPostingConfirmationManager implements JobPostingConfirmationServ
 	}
 
 	@Override
-	public Result delete(JobPostingConfirmation jobPostingConfirmation) {
+	public Result delete(int id) {
 		
-		jobPostingConfirmationDao.delete(jobPostingConfirmation);
+		jobPostingConfirmationDao.deleteById(id);
 		return new SuccessResult();
 	}
 

@@ -42,9 +42,9 @@ public class FavoriteJobPostingManager implements FavoriteJobPostingService {
 	}
 
 	@Override
-	public Result delete(FavoriteJobPosting favoriteJobPosting) {
+	public Result delete(int id) {
 		
-		favoriteJobPostingDao.delete(favoriteJobPosting);
+		favoriteJobPostingDao.deleteById(id);
 		return new SuccessResult();
 	}
 

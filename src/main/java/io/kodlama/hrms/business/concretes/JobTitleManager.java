@@ -43,9 +43,9 @@ public class JobTitleManager implements JobTitleService {
 	}
 
 	@Override
-	public Result delete(JobTitle jobTitle) {
+	public Result delete(int id) {
 
-		jobTitleDao.delete(jobTitle);
+		jobTitleDao.deleteById(id);
 		return new SuccessResult("İş pozisyonu silindi.");
 	}
 

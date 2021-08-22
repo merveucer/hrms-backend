@@ -61,9 +61,9 @@ public class CandidateManager implements CandidateService {
 	}
 
 	@Override
-	public Result delete(Candidate candidate) {
+	public Result delete(int id) {
 
-		candidateDao.delete(candidate);
+		candidateDao.deleteById(id);;
 		return new SuccessResult("İş arayan silindi.");
 	}
 

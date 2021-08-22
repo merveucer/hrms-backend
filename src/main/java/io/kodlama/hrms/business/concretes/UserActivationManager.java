@@ -46,9 +46,9 @@ public class UserActivationManager implements UserActivationService {
 	}
 
 	@Override
-	public Result delete(UserActivation userActivation) {
+	public Result delete(int id) {
 
-		userActivationDao.delete(userActivation);
+		userActivationDao.deleteById(id);
 		return new SuccessResult();
 	}
 

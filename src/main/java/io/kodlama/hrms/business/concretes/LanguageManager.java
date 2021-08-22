@@ -38,9 +38,9 @@ public class LanguageManager implements LanguageService {
 	}
 
 	@Override
-	public Result delete(Language language) {
+	public Result delete(int id) {
 
-		languageDao.delete(language);
+		languageDao.deleteById(id);
 		return new SuccessResult("Dil silindi.");
 	}
 

@@ -58,9 +58,9 @@ public class ResumeManager implements ResumeService {
 	}
 
 	@Override
-	public Result delete(Resume resume) {
+	public Result delete(int id) {
 
-		resumeDao.delete(resume);
+		resumeDao.deleteById(id);
 		return new SuccessResult("Özgeçmiş silindi.");
 	}
 
