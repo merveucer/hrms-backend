@@ -85,6 +85,16 @@ public class ResumeManager implements ResumeService {
 	}
 	
 	@Override
+	public Result deleteCoverLetterFromResume(int resumeId) {
+		
+		Resume resume = getById(resumeId).getData();
+		resume.setCoverLetter(null);
+
+		update(resume);
+		return new SuccessResult("Ön yazı özgeçmişten kaldırıldı.");
+	}
+	
+	@Override
 	public DataResult<List<ResumeWithAllRelatedEntitiesDto>> getAllResumesDetailsByActivatedCandidate() {
 		
 		List<ResumeWithAllRelatedEntitiesDto> resumes = new ArrayList<ResumeWithAllRelatedEntitiesDto>();

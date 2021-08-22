@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +28,7 @@ public class EmployersController {
 		this.employerService = employerService;
 	}
 
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public Result update(@RequestBody Employer employer) {
 		return employerService.update(employer);
 	}
@@ -43,12 +43,12 @@ public class EmployersController {
 		return employerService.getById(id);
 	}
 
-	@PostMapping("/activate")
+	@PutMapping("/activate")
 	public Result activate(@RequestParam String code) {
 		return employerService.activate(code);
 	}
 
-	@PostMapping("/confirm")
+	@PutMapping("/confirm")
 	public Result confirm(@RequestParam int employerId, @RequestParam int companyStaffId, @RequestParam boolean isConfirmed) {
 		return employerService.confirm(employerId, companyStaffId, isConfirmed);
 	}

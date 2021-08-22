@@ -10,6 +10,8 @@ import io.kodlama.hrms.entities.dtos.ResumeWithAllRelatedEntitiesDto;
 public interface ResumeService extends BaseEntityService<Resume> {
 
 	Result addCoverLetterToResume(int resumeId, int coverLetterId);
+	
+	Result deleteCoverLetterFromResume(int resumeId);
 
 	DataResult<List<ResumeWithAllRelatedEntitiesDto>> getAllResumesDetailsByActivatedCandidate();
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,12 +44,12 @@ public class JobPostingsController {
 		return jobPostingService.getById(id);
 	}
 
-	@PostMapping("/confirm")
+	@PutMapping("/confirm")
 	public Result confirm(@RequestParam int jobPostingId, @RequestParam int companyStaffId,	@RequestParam boolean isConfirmed) {
 		return jobPostingService.confirm(jobPostingId, companyStaffId, isConfirmed);
 	}
 
-	@PostMapping("/makeActiveOrPassive")
+	@PutMapping("/makeActiveOrPassive")
 	public Result makeActiveOrPassive(@RequestParam int id, @RequestParam boolean isActive) {
 		return jobPostingService.makeActiveOrPassive(id, isActive);
 	}

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +34,7 @@ public class LinkNamesController {
 		return linkNameService.add(linkName);
 	}
 
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public Result update(@RequestBody LinkName linkName) {
 		return linkNameService.update(linkName);
 	}
