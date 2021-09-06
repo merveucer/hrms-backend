@@ -36,8 +36,13 @@ public class UserConfirmationsController {
 	}
 	
 	@GetMapping("/getAllByUserId")
-	DataResult<List<UserConfirmation>> getAllByUserId(@RequestParam int userId) {
+	public DataResult<List<UserConfirmation>> getAllByUserId(@RequestParam int userId) {
 		return userConfirmationService.getAllByUserId(userId);
+	}
+	
+	@GetMapping("/getAllByIsConfirmedAndUserConfirmationTypeId")
+	public DataResult<List<UserConfirmation>> getAllByIsConfirmedAndUserConfirmationTypeId(@RequestParam boolean isConfirmed, @RequestParam int userConfirmationTypeId) {
+		return userConfirmationService.getAllByIsConfirmedAndUserConfirmationTypeId(isConfirmed , userConfirmationTypeId);
 	}
 	
 }

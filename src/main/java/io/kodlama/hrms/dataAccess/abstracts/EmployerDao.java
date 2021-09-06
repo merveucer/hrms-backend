@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import io.kodlama.hrms.entities.concretes.Employer;
 
 public interface EmployerDao extends JpaRepository<Employer, Integer> {
-
-	List<Employer> getByIsActivatedAndIsConfirmed(boolean isActivated, boolean isConfirmed);
+	
+	List<Employer> getByUserActivation_IsActivated(boolean isActivated);
+	
+	List<Employer> getByUserConfirmations_IsConfirmedAndUserConfirmations_UserConfirmationType_Id(boolean isConfirmed, int userConfirmationTypeId);
 
 }

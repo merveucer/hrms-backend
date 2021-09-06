@@ -10,8 +10,10 @@ public interface EmployerService extends BaseEntityService<Employer> {
 
 	Result activate(String code);
 
-	Result confirm(int employerId, int companyStaffId, boolean isConfirmed);
-
-	DataResult<List<Employer>> getAllByIsActivatedAndIsConfirmed(boolean isActivated, boolean isConfirmed);
-
+	Result confirm(int employerId, int companyStaffId, int userConfirmationTypeId, boolean isConfirmed);
+	
+	DataResult<List<Employer>> getAllByIsActivated(boolean isActivated);
+	
+	DataResult<List<Employer>> getAllByIsConfirmedAndUserConfirmationTypeId(boolean isConfirmed, int userConfirmationTypeId);
+	
 }

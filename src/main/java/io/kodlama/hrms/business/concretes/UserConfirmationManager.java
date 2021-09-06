@@ -65,5 +65,10 @@ public class UserConfirmationManager implements UserConfirmationService {
 	public DataResult<List<UserConfirmation>> getAllByUserId(int userId) {
 		return new SuccessDataResult<List<UserConfirmation>>(userConfirmationDao.getByUser_Id(userId));
 	}
+	
+	@Override
+	public DataResult<List<UserConfirmation>> getAllByIsConfirmedAndUserConfirmationTypeId(boolean isConfirmed, int userConfirmationTypeId) {
+		return new SuccessDataResult<List<UserConfirmation>>(userConfirmationDao.getByIsConfirmedAndUserConfirmationType_Id(isConfirmed, userConfirmationTypeId));
+	}
 
 }

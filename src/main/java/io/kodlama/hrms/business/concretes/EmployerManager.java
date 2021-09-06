@@ -11,6 +11,7 @@ import io.kodlama.hrms.business.abstracts.EmployerService;
 import io.kodlama.hrms.business.abstracts.UpdatedEmployerService;
 import io.kodlama.hrms.business.abstracts.UserActivationService;
 import io.kodlama.hrms.business.abstracts.UserConfirmationService;
+import io.kodlama.hrms.business.abstracts.UserConfirmationTypeService;
 import io.kodlama.hrms.business.abstracts.UserService;
 import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.ErrorResult;
@@ -23,6 +24,7 @@ import io.kodlama.hrms.entities.concretes.Employer;
 import io.kodlama.hrms.entities.concretes.UpdatedEmployer;
 import io.kodlama.hrms.entities.concretes.UserActivation;
 import io.kodlama.hrms.entities.concretes.UserConfirmation;
+import io.kodlama.hrms.entities.concretes.UserConfirmationType;
 
 @Service
 public class EmployerManager implements EmployerService {
@@ -31,16 +33,18 @@ public class EmployerManager implements EmployerService {
 	private UserService userService;
 	private UserActivationService userActivationService;
 	private UserConfirmationService userConfirmationService;
+	private UserConfirmationTypeService userConfirmationTypeService;
 	private CompanyStaffService companyStaffService;
 	private UpdatedEmployerService updatedEmployerService;
 
 	@Autowired
 	public EmployerManager(EmployerDao employerDao, UserService userService, UserActivationService userActivationService,
-			UserConfirmationService userConfirmationService, CompanyStaffService companyStaffService, UpdatedEmployerService updatedEmployerService) {
+			UserConfirmationService userConfirmationService, UserConfirmationTypeService userConfirmationTypeService, CompanyStaffService companyStaffService, UpdatedEmployerService updatedEmployerService) {
 		this.employerDao = employerDao;
 		this.userService = userService;
 		this.userActivationService = userActivationService;
 		this.userConfirmationService = userConfirmationService;
+		this.userConfirmationTypeService = userConfirmationTypeService;
 		this.companyStaffService = companyStaffService;
 		this.updatedEmployerService = updatedEmployerService;
 	}
@@ -49,9 +53,6 @@ public class EmployerManager implements EmployerService {
 	public Result add(Employer employer) {
 
 		validateEmployer(employer);
-
-		employer.setActivated(false);
-		employer.setConfirmed(false);
 
 		employerDao.save(employer);
 		return userActivationService.add(new UserActivation(employer));
@@ -63,17 +64,23 @@ public class EmployerManager implements EmployerService {
 		validateEmployer(employer);
 
 		Employer employerInConfirmationProcess = getById(employer.getId()).getData();
-		employerInConfirmationProcess.setConfirmed(false);
-
-		UpdatedEmployer updatedEmployer = new UpdatedEmployer(
-				0,
-				employer.getEmail(),
-				employer.getPassword(),
-				employer.getCompanyName(),
-				employer.getWebAddress(),
-				employer.getPhoneNumber(),
-				employer
-				);
+		UpdatedEmployer updatedEmployer = updatedEmployerService.getByEmployerId(employer.getId()).getData();
+		
+		String email = employer.getEmail() == null ? employerInConfirmationProcess.getEmail() : employer.getEmail();
+		String password = employer.getPassword() == null ? employerInConfirmationProcess.getPassword() : employer.getPassword();
+		String companyName = employer.getCompanyName() == null ? employerInConfirmationProcess.getCompanyName() : employer.getCompanyName();
+		String webAddress = employer.getWebAddress() == null ? employerInConfirmationProcess.getWebAddress() : employer.getWebAddress();
+		String phoneNumber = employer.getPhoneNumber() == null ? employerInConfirmationProcess.getPhoneNumber() : employer.getPhoneNumber();
+		
+		if (updatedEmployer == null) {
+			updatedEmployer = new UpdatedEmployer(0, email, password, companyName, webAddress, phoneNumber,	employer);
+		} else {
+			updatedEmployer.setEmail(email);
+			updatedEmployer.setPassword(password);
+			updatedEmployer.setCompanyName(companyName);
+			updatedEmployer.setWebAddress(webAddress);
+			updatedEmployer.setPhoneNumber(phoneNumber);
+		}
 
 		updatedEmployerService.add(updatedEmployer);
 		return new SuccessResult("İşveren güncellemesi onay aşamasındadır.");
@@ -105,58 +112,57 @@ public class EmployerManager implements EmployerService {
 			return new ErrorResult("Geçersiz bir kod girdiniz.");
 		}
 
-		Employer employer = getById(userActivation.getUser().getId()).getData();
-
-		employer.setActivated(true);
+		userActivation.setActivated(true);
 		userActivation.setIsActivatedDate(LocalDateTime.now());
-
-		employerDao.save(employer);
+		
 		userActivationService.update(userActivation);
 		return new SuccessResult("Üyeliğiniz onay aşamasındadır.");
 	}
 
 	@Override
-	public Result confirm(int employerId, int companyStaffId, boolean isConfirmed) {
+	public Result confirm(int employerId, int companyStaffId, int userConfirmationTypeId, boolean isConfirmed) {
 
 		Employer employer = getById(employerId).getData();
 		CompanyStaff companyStaff = companyStaffService.getById(companyStaffId).getData();
+		UserConfirmationType userConfirmationType = userConfirmationTypeService.getById(userConfirmationTypeId).getData();
 		UpdatedEmployer updatedEmployer = updatedEmployerService.getByEmployerId(employerId).getData();
 
-		int numberOfUserConfirmations = userConfirmationService.getAllByUserId(employerId).getData().size();
-
-		if (!isConfirmed && numberOfUserConfirmations == 0) {
+		if (!isConfirmed && userConfirmationTypeId == 1) {
 			userActivationService.delete(userActivationService.getByUserId(employer.getId()).getData().getId());
 			delete(employer.getId());
-			return new ErrorResult("İşveren onaylanmadı.");
+			return new ErrorResult("İşveren hesabı onaylanmadı.");
 		}
 
-		if (isConfirmed && numberOfUserConfirmations == 0) {
-			employer.setConfirmed(isConfirmed);
-			employerDao.save(employer);
-			userConfirmationService.add(new UserConfirmation(employer, companyStaff));
-			return new SuccessResult("İşveren onaylandı.");
+		if (isConfirmed && userConfirmationTypeId == 1) {
+			userConfirmationService.add(new UserConfirmation(employer, companyStaff, userConfirmationType, isConfirmed));
+			return new SuccessResult("İşveren hesabı onaylandı.");
 		}
 
-		if (!isConfirmed && numberOfUserConfirmations > 0) {
-			return new ErrorResult("İşveren onaylanmadı.");
+		if (!isConfirmed && userConfirmationTypeId == 2) {
+			userConfirmationService.add(new UserConfirmation(employer, companyStaff, userConfirmationType, isConfirmed));
+			return new ErrorResult("İşveren güncellemesi onaylanmadı.");
 		}
 
 		employer.setEmail(updatedEmployer.getEmail());
 		employer.setPassword(updatedEmployer.getPassword());
 		employer.setCompanyName(updatedEmployer.getCompanyName());
 		employer.setWebAddress(updatedEmployer.getWebAddress());
-		employer.setPhoneNumber(updatedEmployer.getCompanyName());
-		employer.setConfirmed(isConfirmed);
+		employer.setPhoneNumber(updatedEmployer.getPhoneNumber());
 
 		employerDao.save(employer);
 		updatedEmployerService.delete(updatedEmployer.getId());
-		userConfirmationService.add(new UserConfirmation(employer, companyStaff));
-		return new SuccessResult("İşveren onaylandı.");
+		userConfirmationService.add(new UserConfirmation(employer, companyStaff, userConfirmationType, isConfirmed));
+		return new SuccessResult("İşveren güncellemesi onaylandı.");
 	}
-
+	
 	@Override
-	public DataResult<List<Employer>> getAllByIsActivatedAndIsConfirmed(boolean isActivated, boolean isConfirmed) {
-		return new SuccessDataResult<List<Employer>>(employerDao.getByIsActivatedAndIsConfirmed(isActivated, isConfirmed));
+	public DataResult<List<Employer>> getAllByIsActivated(boolean isActivated) {
+		return new SuccessDataResult<List<Employer>>(employerDao.getByUserActivation_IsActivated(isActivated));
+	}
+	
+	@Override
+	public DataResult<List<Employer>> getAllByIsConfirmedAndUserConfirmationTypeId(boolean isConfirmed, int userConfirmationTypeId) {
+		return new SuccessDataResult<List<Employer>>(employerDao.getByUserConfirmations_IsConfirmedAndUserConfirmations_UserConfirmationType_Id(isConfirmed, userConfirmationTypeId));
 	}
 
 	private boolean checkIfEmailExists(String email) {
@@ -178,6 +184,10 @@ public class EmployerManager implements EmployerService {
 	}
 
 	private Result validateEmployer(Employer employer) {
+		
+		if (employer.getEmail() == null || employer.getPassword() == null || employer.getCompanyName() == null || employer.getWebAddress() == null || employer.getPhoneNumber() == null ) {
+			return null;
+		}
 
 		if (!checkIfEmailExists(employer.getEmail())) {
 			return new ErrorResult("Girilen e-posta adresi başka bir hesaba aittir.");
@@ -188,6 +198,6 @@ public class EmployerManager implements EmployerService {
 		}
 
 		return null;
-	}
+	}	
 
 }

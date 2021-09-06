@@ -49,13 +49,18 @@ public class EmployersController {
 	}
 
 	@PutMapping("/confirm")
-	public Result confirm(@RequestParam int employerId, @RequestParam int companyStaffId, @RequestParam boolean isConfirmed) {
-		return employerService.confirm(employerId, companyStaffId, isConfirmed);
+	public Result confirm(@RequestParam int employerId, @RequestParam int companyStaffId, @RequestParam int userConfirmationTypeId, @RequestParam boolean isConfirmed) {
+		return employerService.confirm(employerId, companyStaffId, userConfirmationTypeId, isConfirmed);
 	}
-
-	@GetMapping("/getAllByIsActivatedAndIsConfirmed")
-	public DataResult<List<Employer>> getAllByIsActivatedAndIsConfirmed(@RequestParam boolean isActivated, @RequestParam boolean isConfirmed) {
-		return employerService.getAllByIsActivatedAndIsConfirmed(isActivated, isConfirmed);
+	
+	@GetMapping("/getAllByIsActivated")
+	public DataResult<List<Employer>> getAllByIsActivated(@RequestParam boolean isActivated) {
+		return employerService.getAllByIsActivated(isActivated);
+	}
+	
+	@GetMapping("/getAllByIsConfirmedAndUserConfirmationTypeId")
+	public DataResult<List<Employer>> getAllByIsConfirmedAndUserConfirmationTypeId(@RequestParam boolean isConfirmed, @RequestParam int userConfirmationTypeId) {
+		return employerService.getAllByIsConfirmedAndUserConfirmationTypeId(isConfirmed, userConfirmationTypeId);
 	}
 
 }

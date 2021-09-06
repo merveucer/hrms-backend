@@ -45,8 +45,8 @@ public class JobPostingsController {
 	}
 
 	@PutMapping("/confirm")
-	public Result confirm(@RequestParam int jobPostingId, @RequestParam int companyStaffId,	@RequestParam boolean isConfirmed) {
-		return jobPostingService.confirm(jobPostingId, companyStaffId, isConfirmed);
+	public Result confirm(@RequestParam int jobPostingId, @RequestParam int companyStaffId, @RequestParam int jobPostingConfirmationTypeId, @RequestParam boolean isConfirmed) {
+		return jobPostingService.confirm(jobPostingId, companyStaffId, jobPostingConfirmationTypeId, isConfirmed);
 	}
 
 	@PutMapping("/makeActiveOrPassive")

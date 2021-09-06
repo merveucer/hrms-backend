@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.CompanyStaffService;
 import io.kodlama.hrms.business.abstracts.JobPostingConfirmationService;
+import io.kodlama.hrms.business.abstracts.JobPostingConfirmationTypeService;
 import io.kodlama.hrms.business.abstracts.JobPostingService;
 import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.ErrorResult;
@@ -24,17 +25,20 @@ import io.kodlama.hrms.dataAccess.abstracts.JobPostingDao;
 import io.kodlama.hrms.entities.concretes.CompanyStaff;
 import io.kodlama.hrms.entities.concretes.JobPosting;
 import io.kodlama.hrms.entities.concretes.JobPostingConfirmation;
+import io.kodlama.hrms.entities.concretes.JobPostingConfirmationType;
 
 @Service
 public class JobPostingManager implements JobPostingService {
 
 	private JobPostingDao jobPostingDao;
 	private JobPostingConfirmationService jobPostingConfirmationService;
+	private JobPostingConfirmationTypeService jobPostingConfirmationTypeService;
 	private CompanyStaffService companyStaffService;
 
-	public JobPostingManager(JobPostingDao jobPostingDao, JobPostingConfirmationService jobPostingConfirmationService, CompanyStaffService companyStaffService) {
+	public JobPostingManager(JobPostingDao jobPostingDao, JobPostingConfirmationService jobPostingConfirmationService, JobPostingConfirmationTypeService jobPostingConfirmationTypeService, CompanyStaffService companyStaffService) {
 		this.jobPostingDao = jobPostingDao;
 		this.jobPostingConfirmationService = jobPostingConfirmationService;
+		this.jobPostingConfirmationTypeService = jobPostingConfirmationTypeService;
 		this.companyStaffService = companyStaffService;
 	}
 
@@ -43,7 +47,6 @@ public class JobPostingManager implements JobPostingService {
 
 		jobPosting.setPostingDate(LocalDateTime.now());
 		jobPosting.setActive(false);
-		jobPosting.setConfirmed(false);
 
 		jobPostingDao.save(jobPosting);
 		return new SuccessResult("İş ilanı onay aşamasındadır.");
@@ -74,10 +77,11 @@ public class JobPostingManager implements JobPostingService {
 	}
 
 	@Override
-	public Result confirm(int jobPostingId, int companyStaffId, boolean isConfirmed) {
+	public Result confirm(int jobPostingId, int companyStaffId, int jobPostingConfirmationTypeId, boolean isConfirmed) {
 
 		JobPosting jobPosting = getById(jobPostingId).getData();
 		CompanyStaff companyStaff = companyStaffService.getById(companyStaffId).getData();
+		JobPostingConfirmationType jobPostingConfirmationType = jobPostingConfirmationTypeService.getById(jobPostingConfirmationTypeId).getData();
 
 		if (!isConfirmed) {
 			delete(jobPosting.getId());
@@ -85,10 +89,9 @@ public class JobPostingManager implements JobPostingService {
 		}
 
 		jobPosting.setActive(true);
-		jobPosting.setConfirmed(isConfirmed);
 
 		jobPostingDao.save(jobPosting);
-		jobPostingConfirmationService.add(new JobPostingConfirmation(jobPosting, companyStaff));
+		jobPostingConfirmationService.add(new JobPostingConfirmation(jobPosting, companyStaff, jobPostingConfirmationType, isConfirmed));
 		return new SuccessResult("İş ilanı onaylandı.");
 	}
 

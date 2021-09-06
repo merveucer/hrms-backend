@@ -30,6 +30,9 @@ public class JobPostingConfirmation {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
+	
+	@Column(name = "is_confirmed")
+	private boolean isConfirmed;
 
 	@Column(name = "is_confirmed_date")
 	private LocalDateTime isConfirmedDate;
@@ -41,10 +44,16 @@ public class JobPostingConfirmation {
 	@ManyToOne()
 	@JoinColumn(name = "company_staff_id")
 	private CompanyStaff companyStaff;
+	
+	@ManyToOne()
+	@JoinColumn(name = "job_posting_confirmation_type_id")
+	private JobPostingConfirmationType jobPostingConfirmationType;
 
-	public JobPostingConfirmation(JobPosting jobPosting, CompanyStaff companyStaff) {
+	public JobPostingConfirmation(JobPosting jobPosting, CompanyStaff companyStaff, JobPostingConfirmationType jobPostingConfirmationType, boolean isConfirmed) {
 		this.setJobPosting(jobPosting);
 		this.setCompanyStaff(companyStaff);
+		this.setJobPostingConfirmationType(jobPostingConfirmationType);
+		this.setConfirmed(isConfirmed);
 	}
 	
 }

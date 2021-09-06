@@ -4,8 +4,11 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.kodlama.hrms.core.entities.User;
 import lombok.AllArgsConstructor;
@@ -33,8 +36,9 @@ public class Candidate extends User {
 
 	@Column(name = "date_of_birth")
 	private LocalDate dateOfBirth;
-
-	@Column(name = "is_activated")
-	private boolean isActivated;
-
+	
+	@JsonIgnore
+	@OneToOne(mappedBy = "user")
+	private UserActivation userActivation;
+	
 }

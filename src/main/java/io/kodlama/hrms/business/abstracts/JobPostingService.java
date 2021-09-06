@@ -8,7 +8,7 @@ import io.kodlama.hrms.entities.concretes.JobPosting;
 
 public interface JobPostingService extends BaseEntityService<JobPosting> {
 
-	Result confirm(int employerId, int companyStaffId, boolean isConfirmed);
+	Result confirm(int employerId, int companyStaffId, int jobPostingConfirmationTypeId, boolean isConfirmed);
 
 	Result makeActiveOrPassive(int id, boolean isActive);
 	

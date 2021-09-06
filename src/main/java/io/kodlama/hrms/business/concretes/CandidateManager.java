@@ -43,8 +43,6 @@ public class CandidateManager implements CandidateService {
 	public Result add(Candidate candidate) {
 
 		validateCandidate(candidate);
-
-		candidate.setActivated(false);
 		
 		candidateDao.save(candidate);
 		resumeService.add(new Resume(candidate));		
@@ -88,17 +86,17 @@ public class CandidateManager implements CandidateService {
 
 		Candidate candidate = getById(userActivation.getUser().getId()).getData();
 
-		candidate.setActivated(true);
+		userActivation.setActivated(true);
 		userActivation.setIsActivatedDate(LocalDateTime.now());
 
 		candidateDao.save(candidate);
 		userActivationService.update(userActivation);
 		return new SuccessResult("Üyelik işlemleri tamamlanmıştır.");
 	}
-
+	
 	@Override
 	public DataResult<List<Candidate>> getAllByIsActivated(boolean isActivated) {
-		return new SuccessDataResult<List<Candidate>>(candidateDao.getByIsActivated(isActivated));
+		return new SuccessDataResult<List<Candidate>>(candidateDao.getByUserActivation_IsActivated(isActivated));
 	}
 
 	@Override
