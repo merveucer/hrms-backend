@@ -169,48 +169,21 @@ public class JobPostingManager implements JobPostingService {
 	
 	private List<JobPosting> getAllActiveOnesFilteredByCityAndJobTitleAndWorkingTimeAndWorkingTypeBase(int cityId, int jobTitleId, int workingTimeId, int workingTypeId) {
 		
-		Stream<JobPosting> stream = getAllActiveOnesSortedByPostingDate().getData().stream();
-
-		Predicate<JobPosting> workingTimeCondition = jobPosting -> jobPosting.getWorkingTime().getId() == workingTimeId;
-		Predicate<JobPosting> workingTypeCondition = jobPosting -> jobPosting.getWorkingType().getId() == workingTypeId;
-		Predicate<JobPosting> cityCondition = jobPosting -> jobPosting.getCity().getId() == cityId;
-		Predicate<JobPosting> jobTitleCondition = jobPosting -> jobPosting.getJobTitle().getId() == jobTitleId;
-
 		List<JobPosting> result = new ArrayList<JobPosting>();
-
-		if (workingTimeId == 0 && workingTypeId != 0 && cityId != 0 && jobTitleId != 0) {
-			stream.filter(workingTypeCondition).filter(cityCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId != 0 && workingTypeId == 0 && cityId != 0 && jobTitleId != 0) {
-			stream.filter(workingTimeCondition).filter(cityCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId != 0 && workingTypeId != 0 && cityId == 0 && jobTitleId != 0) {
-			stream.filter(workingTimeCondition).filter(workingTypeCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId != 0 && workingTypeId != 0 && cityId != 0 && jobTitleId == 0) {
-			stream.filter(workingTimeCondition).filter(workingTypeCondition).filter(cityCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId == 0 && workingTypeId == 0 && cityId != 0 && jobTitleId != 0) {
-			stream.filter(cityCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId == 0 && workingTypeId != 0 && cityId == 0 && jobTitleId != 0) {
-			stream.filter(workingTypeCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId == 0 && workingTypeId != 0 && cityId != 0 && jobTitleId == 0) {
-			stream.filter(workingTypeCondition).filter(cityCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId != 0 && workingTypeId == 0 && cityId == 0 && jobTitleId != 0) {
-			stream.filter(workingTimeCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId != 0 && workingTypeId == 0 && cityId != 0 && jobTitleId == 0) {
-			stream.filter(workingTimeCondition).filter(cityCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId != 0 && workingTypeId != 0 && cityId == 0 && jobTitleId == 0) {
-			stream.filter(workingTimeCondition).filter(workingTypeCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId == 0 && workingTypeId == 0 && cityId == 0 && jobTitleId != 0) {
-			stream.filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId == 0 && workingTypeId == 0 && cityId != 0 && jobTitleId == 0) {
-			stream.filter(cityCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId == 0 && workingTypeId != 0 && cityId == 0 && jobTitleId == 0) {
-			stream.filter(workingTypeCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId != 0 && workingTypeId == 0 && cityId == 0 && jobTitleId == 0) {
-			stream.filter(workingTimeCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else if (workingTimeId != 0 && workingTypeId != 0 && cityId != 0 && jobTitleId != 0) {
-			stream.filter(workingTimeCondition).filter(workingTypeCondition).filter(cityCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
-		} else {
-			return getAllActiveOnesSortedByPostingDate().getData();
-		}
+		
+		Stream<JobPosting> stream = getAllActiveOnesSortedByPostingDate().getData().stream();		
+		
+		Predicate<JobPosting> cityCondition = null;
+		Predicate<JobPosting> jobTitleCondition = null ;
+		Predicate<JobPosting> workingTimeCondition = null ;
+		Predicate<JobPosting> workingTypeCondition = null;
+		
+		cityCondition = cityId != 0 ? (jobPosting -> jobPosting.getCity().getId() == cityId) : (jobPosting -> jobPosting.getCity().getId() > 0);
+		jobTitleCondition = jobTitleId != 0 ? (jobPosting -> jobPosting.getJobTitle().getId() == jobTitleId) : (jobPosting -> jobPosting.getJobTitle().getId() > 0);
+		workingTimeCondition = workingTimeId != 0 ? (jobPosting -> jobPosting.getWorkingTime().getId() == workingTimeId) : (jobPosting -> jobPosting.getWorkingTime().getId() > 0);
+		workingTypeCondition = workingTypeId != 0 ? (jobPosting -> jobPosting.getWorkingType().getId() == workingTypeId) : (jobPosting -> jobPosting.getWorkingType().getId() > 0);			 
+		
+		stream.filter(workingTimeCondition).filter(workingTypeCondition).filter(cityCondition).filter(jobTitleCondition).forEach(jobPosting -> result.add(jobPosting));
 
 		return result;
 	}
