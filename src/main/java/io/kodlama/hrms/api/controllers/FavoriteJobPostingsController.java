@@ -16,6 +16,7 @@ import io.kodlama.hrms.business.abstracts.FavoriteJobPostingService;
 import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.entities.concretes.FavoriteJobPosting;
+import io.kodlama.hrms.entities.concretes.JobPosting;
 
 @RestController
 @RequestMapping("/api/favoriteJobPostings")
@@ -54,9 +55,9 @@ public class FavoriteJobPostingsController {
 		return favoriteJobPostingService.getAllByCandidateId(candidateId);
 	}
 
-	@GetMapping("/getAllByCandidateIdSortedByDateOfAddToFavorites")
-	public DataResult<List<FavoriteJobPosting>> getAllByCandidateIdSortedByDateOfAddToFavorites(@RequestParam int candidateId) {
-		return favoriteJobPostingService.getAllByCandidateIdSortedByDateOfAddToFavorites(candidateId);
+	@GetMapping("/getAllActiveJobPostingsByCandidateIdSortedByDateOfAddToFavorites")
+	public DataResult<List<JobPosting>> getAllActiveJobPostingsByCandidateIdSortedByDateOfAddToFavorites(@RequestParam int candidateId) {
+		return favoriteJobPostingService.getAllActiveJobPostingsByCandidateIdSortedByDateOfAddToFavorites(candidateId);
 	}
 
 }
