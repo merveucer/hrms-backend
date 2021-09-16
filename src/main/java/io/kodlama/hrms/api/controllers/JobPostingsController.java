@@ -79,9 +79,9 @@ public class JobPostingsController {
 		return jobPostingService.getAllActiveOnesSortedByPostingDateTop6();
 	}
 
-	@GetMapping("/getAllActiveOnesByEmployerId")
-	public DataResult<List<JobPosting>> getAllActiveOnesByEmployerId(@RequestParam int employerId) {
-		return jobPostingService.getAllActiveOnesByEmployerId(employerId);
+	@GetMapping("/getAllActiveOnesByEmployerIdSortedByPostingDate")
+	public DataResult<List<JobPosting>> getAllActiveOnesByEmployerIdSortedByPostingDate(@RequestParam int employerId) {
+		return jobPostingService.getAllActiveOnesByEmployerIdSortedByPostingDate(employerId);
 	}
 	
 	@GetMapping("/getAllActiveOnesFilteredByCityAndJobTitleAndWorkingTimeAndWorkingType")

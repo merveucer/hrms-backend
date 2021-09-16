@@ -149,8 +149,11 @@ public class JobPostingManager implements JobPostingService {
 	}
 
 	@Override
-	public DataResult<List<JobPosting>> getAllActiveOnesByEmployerId(int employerId) {
-		return new SuccessDataResult<List<JobPosting>>(jobPostingDao.getByIsActiveAndEmployer_Id(true, employerId));
+	public DataResult<List<JobPosting>> getAllActiveOnesByEmployerIdSortedByPostingDate(int employerId) {
+		
+		Sort sort = Sort.by(Sort.Direction.DESC, "postingDate");
+		
+		return new SuccessDataResult<List<JobPosting>>(jobPostingDao.getByIsActiveAndEmployer_Id(true, employerId, sort));
 	}
 	
 	@Override

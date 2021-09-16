@@ -16,6 +16,6 @@ public interface JobPostingDao extends JpaRepository<JobPosting, Integer> {
 	
 	List<JobPosting> getByIsActive(boolean isActive, Pageable pageable);
 
-	List<JobPosting> getByIsActiveAndEmployer_Id(boolean isActive, int employerId);
+	List<JobPosting> getByIsActiveAndEmployer_Id(boolean isActive, int employerId, Sort sort);
 
 }

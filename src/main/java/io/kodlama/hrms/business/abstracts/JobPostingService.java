@@ -22,7 +22,7 @@ public interface JobPostingService extends BaseEntityService<JobPosting> {
 
 	DataResult<List<JobPosting>> getAllActiveOnesSortedByPostingDateTop6();
 
-	DataResult<List<JobPosting>> getAllActiveOnesByEmployerId(int employerId);
+	DataResult<List<JobPosting>> getAllActiveOnesByEmployerIdSortedByPostingDate(int employerId);
 	
 	DataResult<List<JobPosting>> getAllActiveOnesFilteredByCityAndJobTitleAndWorkingTimeAndWorkingType(int cityId, int jobTitleId, int workingTimeId, int workingTypeId);
 
