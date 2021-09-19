@@ -54,9 +54,9 @@ public class JobPostingsController {
 		return jobPostingService.makeActiveOrPassive(id, isActive);
 	}
 	
-	@GetMapping("/getAllActiveOnes")
-	public DataResult<List<JobPosting>> getAllActiveOnes() {
-		return jobPostingService.getAllActiveOnes();
+	@GetMapping("/getAllByIsActive")
+	public DataResult<List<JobPosting>> getAllByIsActive(@RequestParam boolean isActive) {
+		return jobPostingService.getAllByIsActive(isActive);
 	}
 
 	@GetMapping("/getAllActiveOnesByPage")
@@ -94,6 +94,11 @@ public class JobPostingsController {
 	public DataResult<List<JobPosting>> getAllActiveOnesByPageFilteredByCityAndJobTitleAndWorkingTimeAndWorkingType(@RequestParam int cityId, @RequestParam int jobTitleId,
 			@RequestParam int workingTimeId, @RequestParam int workingTypeId, @RequestParam int pageNo, @RequestParam int pageSize) {
 		return jobPostingService.getAllActiveOnesByPageFilteredByCityAndJobTitleAndWorkingTimeAndWorkingType(cityId, jobTitleId, workingTimeId, workingTypeId, pageNo, pageSize);
+	}
+	
+	@GetMapping("/getAllOnesThatWaitingForPostingConfirmation")
+	public DataResult<List<JobPosting>> getAllOnesThatWaitingForPostingConfirmation() {
+		return jobPostingService.getAllOnesThatWaitingForPostingConfirmation();
 	}
 
 }

@@ -1,9 +1,11 @@
 package io.kodlama.hrms.business.concretes;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.CompanyStaffService;
@@ -140,6 +142,7 @@ public class EmployerManager implements EmployerService {
 
 		if (!isConfirmed && userConfirmationTypeId == 2) {
 			userConfirmationService.add(new UserConfirmation(employer, companyStaff, userConfirmationType, isConfirmed));
+			updatedEmployerService.delete(updatedEmployer.getId());
 			return new ErrorResult("İşveren güncellemesi onaylanmadı.");
 		}
 
@@ -156,6 +159,34 @@ public class EmployerManager implements EmployerService {
 	}
 	
 	@Override
+	public DataResult<List<Employer>> getAllOnesThatWaitingForAccountConfirmation() {
+		
+		List<Employer> result = new ArrayList<Employer>();		
+		List<Employer> activatedEmployers = getAllByIsActivated(true).getData();
+		
+		for (Employer employer : activatedEmployers) {
+			if (userConfirmationService.getAllByUserId(employer.getId()).getData().size() == 0) {
+				result.add(employer);
+			}
+		}
+		
+		return new SuccessDataResult<List<Employer>>(result);
+	}
+
+	@Override
+	public DataResult<List<Employer>> getAllOnesThatWaitingForUpdateConfirmation() {
+		
+		List<Employer> result = new ArrayList<Employer>();
+		List<UpdatedEmployer> updatedEmployers = updatedEmployerService.getAll().getData();
+		
+		for (UpdatedEmployer updatedEmployer : updatedEmployers) {
+			result.add(new Employer(updatedEmployer.getEmployer().getId() ,updatedEmployer.getEmail(), updatedEmployer.getPassword() ,updatedEmployer.getCompanyName(), updatedEmployer.getWebAddress(), updatedEmployer.getPhoneNumber()));
+		}
+		
+		return new SuccessDataResult<List<Employer>>(result);
+	}	
+	
+	@Override
 	public DataResult<List<Employer>> getAllByIsActivated(boolean isActivated) {
 		return new SuccessDataResult<List<Employer>>(employerDao.getByUserActivation_IsActivated(isActivated));
 	}
@@ -163,6 +194,23 @@ public class EmployerManager implements EmployerService {
 	@Override
 	public DataResult<List<Employer>> getAllByIsConfirmedAndUserConfirmationTypeId(boolean isConfirmed, int userConfirmationTypeId) {
 		return new SuccessDataResult<List<Employer>>(employerDao.getByUserConfirmations_IsConfirmedAndUserConfirmations_UserConfirmationType_Id(isConfirmed, userConfirmationTypeId));
+	}
+	
+	@Override
+	public DataResult<List<Employer>> getAllByIsConfirmedAndUserConfirmationTypeIdSortedByCompanyName(boolean isConfirmed, int userConfirmationTypeId) {
+		
+		Sort sort = Sort.by(Sort.Direction.ASC, "companyName");
+		
+		return new SuccessDataResult<List<Employer>>(employerDao.getByUserConfirmations_IsConfirmedAndUserConfirmations_UserConfirmationType_Id(isConfirmed, userConfirmationTypeId, sort));
+	}
+	
+	@Override
+	public DataResult<Employer> getOneThatWaitingForUpdateConfirmationById(int id) {
+		
+		UpdatedEmployer updatedEmployer = updatedEmployerService.getByEmployerId(id).getData();
+		Employer result = new Employer(updatedEmployer.getEmployer().getId() ,updatedEmployer.getEmail(), updatedEmployer.getPassword() ,updatedEmployer.getCompanyName(), updatedEmployer.getWebAddress(), updatedEmployer.getPhoneNumber());
+		
+		return new SuccessDataResult<Employer>(result);
 	}
 
 	private boolean checkIfEmailExists(String email) {
@@ -198,6 +246,6 @@ public class EmployerManager implements EmployerService {
 		}
 
 		return null;
-	}	
+	}
 
 }

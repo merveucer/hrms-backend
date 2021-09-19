@@ -34,5 +34,10 @@ public class JobPostingConfirmationsController {
 	public DataResult<JobPostingConfirmation> getById(@RequestParam int id) {
 		return jobPostingConfirmationService.getById(id);
 	}
+	
+	@GetMapping("/getByJobPostingId")
+	public DataResult<JobPostingConfirmation> getByJobPostingId(@RequestParam int jobPostingId) {
+		return jobPostingConfirmationService.getByJobPostingId(jobPostingId);
+	}
 
 }

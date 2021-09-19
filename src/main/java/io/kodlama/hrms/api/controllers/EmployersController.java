@@ -53,14 +53,29 @@ public class EmployersController {
 		return employerService.confirm(employerId, companyStaffId, userConfirmationTypeId, isConfirmed);
 	}
 	
+	@GetMapping("/getAllOnesThatWaitingForAccountConfirmation")
+	public DataResult<List<Employer>> getAllOnesThatWaitingForAccountConfirmation() {
+		return employerService.getAllOnesThatWaitingForAccountConfirmation();
+	}
+	
+	@GetMapping("/getAllOnesThatWaitingForUpdateConfirmation")
+	public DataResult<List<Employer>> getAllOnesThatWaitingForUpdateConfirmation() {
+		return employerService.getAllOnesThatWaitingForUpdateConfirmation();
+	}
+	
 	@GetMapping("/getAllByIsActivated")
 	public DataResult<List<Employer>> getAllByIsActivated(@RequestParam boolean isActivated) {
 		return employerService.getAllByIsActivated(isActivated);
 	}
 	
-	@GetMapping("/getAllByIsConfirmedAndUserConfirmationTypeId")
-	public DataResult<List<Employer>> getAllByIsConfirmedAndUserConfirmationTypeId(@RequestParam boolean isConfirmed, @RequestParam int userConfirmationTypeId) {
-		return employerService.getAllByIsConfirmedAndUserConfirmationTypeId(isConfirmed, userConfirmationTypeId);
+	@GetMapping("/getAllByIsConfirmedAndUserConfirmationTypeIdSortedByCompanyName")
+	public DataResult<List<Employer>> getAllByIsConfirmedAndUserConfirmationTypeIdSortedByCompanyName(@RequestParam boolean isConfirmed, @RequestParam int userConfirmationTypeId) {
+		return employerService.getAllByIsConfirmedAndUserConfirmationTypeIdSortedByCompanyName(isConfirmed, userConfirmationTypeId);
+	}
+	
+	@GetMapping("/getOneThatWaitingForUpdateConfirmationById")
+	public DataResult<Employer> getOneThatWaitingForUpdateConfirmationById(@RequestParam int id) {
+		return employerService.getOneThatWaitingForUpdateConfirmationById(id);
 	}
 
 }
