@@ -3,6 +3,7 @@ package io.kodlama.hrms.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.JobTitleService;
@@ -51,7 +52,10 @@ public class JobTitleManager implements JobTitleService {
 
 	@Override
 	public DataResult<List<JobTitle>> getAll() {
-		return new SuccessDataResult<List<JobTitle>>(jobTitleDao.findAll());
+		
+		Sort sort = Sort.by(Sort.Direction.ASC, "title");
+		
+		return new SuccessDataResult<List<JobTitle>>(jobTitleDao.findAll(sort));
 	}
 
 	@Override

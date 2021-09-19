@@ -3,6 +3,7 @@ package io.kodlama.hrms.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.WorkingTypeService;
@@ -46,7 +47,10 @@ public class WorkingTypeManager implements WorkingTypeService {
 
 	@Override
 	public DataResult<List<WorkingType>> getAll() {
-		return new SuccessDataResult<List<WorkingType>>(workingTypeDao.findAll());
+		
+		Sort sort = Sort.by(Sort.Direction.ASC, "type");
+		
+		return new SuccessDataResult<List<WorkingType>>(workingTypeDao.findAll(sort));
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package io.kodlama.hrms.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.LinkNameService;
@@ -46,7 +47,10 @@ public class LinkNameManager implements LinkNameService {
 
 	@Override
 	public DataResult<List<LinkName>> getAll() {
-		return new SuccessDataResult<List<LinkName>>(linkNameDao.findAll());
+		
+		Sort sort = Sort.by(Sort.Direction.ASC, "name");
+		
+		return new SuccessDataResult<List<LinkName>>(linkNameDao.findAll(sort));
 	}
 
 	@Override

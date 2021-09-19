@@ -3,6 +3,7 @@ package io.kodlama.hrms.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.LanguageService;
@@ -46,7 +47,10 @@ public class LanguageManager implements LanguageService {
 
 	@Override
 	public DataResult<List<Language>> getAll() {
-		return new SuccessDataResult<List<Language>>(languageDao.findAll());
+		
+		Sort sort = Sort.by(Sort.Direction.ASC, "language");
+		
+		return new SuccessDataResult<List<Language>>(languageDao.findAll(sort));
 	}
 
 	@Override

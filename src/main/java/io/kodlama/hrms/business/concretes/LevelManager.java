@@ -3,6 +3,7 @@ package io.kodlama.hrms.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.LevelService;
@@ -46,7 +47,10 @@ public class LevelManager implements LevelService {
 
 	@Override
 	public DataResult<List<Level>> getAll() {
-		return new SuccessDataResult<List<Level>>(levelDao.findAll());
+		
+		Sort sort = Sort.by(Sort.Direction.ASC, "level");
+		
+		return new SuccessDataResult<List<Level>>(levelDao.findAll(sort));
 	}
 
 	@Override

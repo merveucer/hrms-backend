@@ -3,6 +3,7 @@ package io.kodlama.hrms.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.CityService;
@@ -46,7 +47,10 @@ public class CityManager implements CityService {
 
 	@Override
 	public DataResult<List<City>> getAll() {
-		return new SuccessDataResult<List<City>>(cityDao.findAll());
+		
+		Sort sort = Sort.by(Sort.Direction.ASC, "city");
+		
+		return new SuccessDataResult<List<City>>(cityDao.findAll(sort));
 	}
 
 	@Override

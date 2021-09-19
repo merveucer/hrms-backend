@@ -3,6 +3,7 @@ package io.kodlama.hrms.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.WorkingTimeService;
@@ -46,7 +47,10 @@ public class WorkingTimeManager implements WorkingTimeService {
 
 	@Override
 	public DataResult<List<WorkingTime>> getAll() {
-		return new SuccessDataResult<List<WorkingTime>>(workingTimeDao.findAll());
+		
+		Sort sort = Sort.by(Sort.Direction.ASC, "time");
+		
+		return new SuccessDataResult<List<WorkingTime>>(workingTimeDao.findAll(sort));
 	}
 
 	@Override
