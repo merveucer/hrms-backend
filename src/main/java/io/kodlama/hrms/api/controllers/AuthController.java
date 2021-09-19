@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import io.kodlama.hrms.business.abstracts.AuthService;
 import io.kodlama.hrms.core.utilities.results.ErrorDataResult;
 import io.kodlama.hrms.entities.concretes.Candidate;
+import io.kodlama.hrms.entities.concretes.CompanyStaff;
 import io.kodlama.hrms.entities.concretes.Employer;
 
 @RestController
@@ -33,6 +34,11 @@ public class AuthController {
 	@Autowired
 	public AuthController(AuthService authService) {
 		this.authService = authService;
+	}
+	
+	@PostMapping("/registerCompanyStaff")
+	public ResponseEntity<?> registerCompanyStaff(@Valid @RequestBody CompanyStaff companyStaff, String confirmPassword) {
+		return ResponseEntity.ok(authService.resgisterCompanyStaff(companyStaff, confirmPassword));
 	}
 
 	@PostMapping("/registerCandidate")

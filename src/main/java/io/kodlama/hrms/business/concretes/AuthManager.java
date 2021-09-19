@@ -5,23 +5,35 @@ import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.AuthService;
 import io.kodlama.hrms.business.abstracts.CandidateService;
+import io.kodlama.hrms.business.abstracts.CompanyStaffService;
 import io.kodlama.hrms.business.abstracts.EmployerService;
 import io.kodlama.hrms.core.entities.User;
 import io.kodlama.hrms.core.utilities.results.ErrorResult;
 import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.entities.concretes.Candidate;
+import io.kodlama.hrms.entities.concretes.CompanyStaff;
 import io.kodlama.hrms.entities.concretes.Employer;
 
 @Service
 public class AuthManager implements AuthService {
 
+	private CompanyStaffService companyStaffService;
 	private CandidateService candidateService;
 	private EmployerService employerService;
 
 	@Autowired
-	public AuthManager(CandidateService candidateService, EmployerService employerService) {
+	public AuthManager(CompanyStaffService companyStaffService, CandidateService candidateService, EmployerService employerService) {
+		this.companyStaffService = companyStaffService;
 		this.candidateService = candidateService;
 		this.employerService = employerService;
+	}
+	
+	@Override
+	public Result resgisterCompanyStaff(CompanyStaff user, String confirmPassword) {
+		
+		validateUser(user, confirmPassword);
+
+		return companyStaffService.add(user);
 	}
 
 	@Override
