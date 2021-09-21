@@ -32,6 +32,21 @@ public class CompanyStaffManager implements CompanyStaffService {
 
 	@Override
 	public Result update(CompanyStaff companyStaff) {
+		
+		CompanyStaff c = getById(companyStaff.getId()).getData();
+		
+		companyStaff.setEmail(companyStaff.getEmail() == null || companyStaff.getEmail() == ""
+				? c.getEmail()
+				: companyStaff.getEmail());
+		companyStaff.setPassword(companyStaff.getPassword() == null || companyStaff.getPassword() == ""
+				? c.getPassword()
+				: companyStaff.getPassword());
+		companyStaff.setFirstName(companyStaff.getFirstName() == null || companyStaff.getFirstName() == ""
+				? c.getFirstName()
+				: companyStaff.getFirstName());
+		companyStaff.setLastName(companyStaff.getLastName() == null || companyStaff.getLastName() == ""
+				? c.getLastName()
+				: companyStaff.getLastName());
 
 		companyStaffDao.save(companyStaff);
 		return new SuccessResult("Şirket personeli güncellendi.");

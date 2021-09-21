@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.CoverLetterService;
@@ -66,7 +67,10 @@ public class ResumeManager implements ResumeService {
 
 	@Override
 	public DataResult<List<Resume>> getAll() {
-		return new SuccessDataResult<List<Resume>>(resumeDao.findAll());
+		
+		Sort sort = Sort.by(Sort.Direction.DESC, "creationDate");
+		
+		return new SuccessDataResult<List<Resume>>(resumeDao.findAll(sort));
 	}
 
 	@Override

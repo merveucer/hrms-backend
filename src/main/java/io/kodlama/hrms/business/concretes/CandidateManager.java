@@ -51,7 +51,28 @@ public class CandidateManager implements CandidateService {
 
 	@Override
 	public Result update(Candidate candidate) {
-
+		
+		Candidate c = getById(candidate.getId()).getData();
+		
+		candidate.setEmail(candidate.getEmail() == null || candidate.getEmail() == ""
+				? c.getEmail()
+				: candidate.getEmail());
+		candidate.setPassword(candidate.getPassword() == null || candidate.getPassword() == ""
+				? c.getPassword()
+				: candidate.getPassword());
+		candidate.setFirstName(candidate.getFirstName() == null || candidate.getFirstName() == ""
+				? c.getFirstName()
+				: candidate.getFirstName());
+		candidate.setLastName(candidate.getLastName() == null || candidate.getLastName() == ""
+				? c.getLastName()
+				: candidate.getLastName());		
+		candidate.setIdentityNumber(candidate.getIdentityNumber() == null || candidate.getIdentityNumber() == ""
+				? c.getIdentityNumber()
+				: candidate.getIdentityNumber() );
+		candidate.setDateOfBirth(candidate.getDateOfBirth() == null
+				? c.getDateOfBirth()
+				: candidate.getDateOfBirth());
+		
 		validateCandidate(candidate);
 
 		candidateDao.save(candidate);

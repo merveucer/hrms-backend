@@ -61,28 +61,38 @@ public class EmployerManager implements EmployerService {
 	}
 
 	@Override
-	public Result update(Employer employer) {
+	public Result update(Employer employer) {	
 
-		validateEmployer(employer);
-
-		Employer employerInConfirmationProcess = getById(employer.getId()).getData();
+		Employer e = getById(employer.getId()).getData();
 		UpdatedEmployer updatedEmployer = updatedEmployerService.getByEmployerId(employer.getId()).getData();
 		
-		String email = employer.getEmail() == null ? employerInConfirmationProcess.getEmail() : employer.getEmail();
-		String password = employer.getPassword() == null ? employerInConfirmationProcess.getPassword() : employer.getPassword();
-		String companyName = employer.getCompanyName() == null ? employerInConfirmationProcess.getCompanyName() : employer.getCompanyName();
-		String webAddress = employer.getWebAddress() == null ? employerInConfirmationProcess.getWebAddress() : employer.getWebAddress();
-		String phoneNumber = employer.getPhoneNumber() == null ? employerInConfirmationProcess.getPhoneNumber() : employer.getPhoneNumber();
+		employer.setEmail(employer.getEmail() == null || employer.getEmail() == "" 
+				? e.getEmail()
+				: employer.getEmail());
+		employer.setPassword(employer.getPassword() == null || employer.getPassword() == ""
+				? e.getPassword()
+				: employer.getPassword());
+		employer.setCompanyName(employer.getCompanyName() == null || employer.getCompanyName() == ""
+				? e.getCompanyName()
+				: employer.getCompanyName());
+		employer.setWebAddress(employer.getWebAddress() == null || employer.getWebAddress() == ""
+				? e.getWebAddress()
+				: employer.getWebAddress());
+		employer.setPhoneNumber(employer.getPhoneNumber() == null || employer.getPhoneNumber() == ""
+				? e.getPhoneNumber()
+				: employer.getPhoneNumber());
+		
+		validateEmployer(employer);
 		
 		if (updatedEmployer == null) {
-			updatedEmployer = new UpdatedEmployer(0, email, password, companyName, webAddress, phoneNumber,	employer);
+			updatedEmployer = new UpdatedEmployer(0, employer.getEmail(), employer.getPassword(), employer.getCompanyName(), employer.getWebAddress(), employer.getPhoneNumber(), employer);
 		} else {
-			updatedEmployer.setEmail(email);
-			updatedEmployer.setPassword(password);
-			updatedEmployer.setCompanyName(companyName);
-			updatedEmployer.setWebAddress(webAddress);
-			updatedEmployer.setPhoneNumber(phoneNumber);
-		}
+			updatedEmployer.setEmail(employer.getEmail());
+			updatedEmployer.setPassword(employer.getPassword());
+			updatedEmployer.setCompanyName(employer.getCompanyName());
+			updatedEmployer.setWebAddress(employer.getWebAddress());
+			updatedEmployer.setPhoneNumber(employer.getPhoneNumber());
+		}		
 
 		updatedEmployerService.add(updatedEmployer);
 		return new SuccessResult("İşveren güncellemesi onay aşamasındadır.");
@@ -234,7 +244,7 @@ public class EmployerManager implements EmployerService {
 	private Result validateEmployer(Employer employer) {
 		
 		if (employer.getEmail() == null || employer.getPassword() == null || employer.getCompanyName() == null || employer.getWebAddress() == null || employer.getPhoneNumber() == null ) {
-			return null;
+			return new ErrorResult("Lütfen boş alanları doldurunuz.");
 		}
 
 		if (!checkIfEmailExists(employer.getEmail())) {
