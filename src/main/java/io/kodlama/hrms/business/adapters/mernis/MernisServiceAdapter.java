@@ -22,8 +22,7 @@ public class MernisServiceAdapter /*implements UserCheckService*/ {
 					Long.parseLong(identityNumber),
 					firstName.toUpperCase(),
 					lastName.toUpperCase(),
-					dateOfBirth.getYear()
-					);
+					dateOfBirth.getYear());
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (RemoteException e) {

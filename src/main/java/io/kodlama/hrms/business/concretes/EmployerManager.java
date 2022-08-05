@@ -54,7 +54,9 @@ public class EmployerManager implements EmployerService {
 	@Override
 	public Result add(Employer employer) {
 
-		validateEmployer(employer);
+		if (validateEmployer(employer) != null) {
+			return validateEmployer(employer);
+		}
 
 		employerDao.save(employer);
 		return userActivationService.add(new UserActivation(employer));
@@ -82,7 +84,9 @@ public class EmployerManager implements EmployerService {
 				? e.getPhoneNumber()
 				: employer.getPhoneNumber());
 		
-		validateEmployer(employer);
+		if (validateEmployer(employer) != null) {
+			return validateEmployer(employer);
+		}
 		
 		if (updatedEmployer == null) {
 			updatedEmployer = new UpdatedEmployer(0, employer.getEmail(), employer.getPassword(), employer.getCompanyName(), employer.getWebAddress(), employer.getPhoneNumber(), employer);

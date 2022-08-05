@@ -38,7 +38,7 @@ public class CandidatesController {
 		return candidateService.getAll();
 	}
 
-	@GetMapping("getById")
+	@GetMapping("/getById")
 	public DataResult<Candidate> getById(@RequestParam int id) {
 		return candidateService.getById(id);
 	}

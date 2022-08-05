@@ -38,7 +38,7 @@ public class EmployersController {
 		return employerService.getAll();
 	}
 
-	@GetMapping("getById")
+	@GetMapping("/getById")
 	public DataResult<Employer> getById(@RequestParam int id) {
 		return employerService.getById(id);
 	}

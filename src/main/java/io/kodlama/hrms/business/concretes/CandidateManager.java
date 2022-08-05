@@ -42,7 +42,9 @@ public class CandidateManager implements CandidateService {
 	@Override
 	public Result add(Candidate candidate) {
 
-		validateCandidate(candidate);
+		if (validateCandidate(candidate) != null) {
+			return validateCandidate(candidate);
+		}
 		
 		candidateDao.save(candidate);
 		resumeService.add(new Resume(candidate));		
@@ -73,7 +75,9 @@ public class CandidateManager implements CandidateService {
 				? c.getDateOfBirth()
 				: candidate.getDateOfBirth());
 		
-		validateCandidate(candidate);
+		if (validateCandidate(candidate) != null) {
+			return validateCandidate(candidate);
+		}
 
 		candidateDao.save(candidate);
 		return new SuccessResult("İş arayan güncellendi.");

@@ -31,7 +31,9 @@ public class AuthManager implements AuthService {
 	@Override
 	public Result resgisterCompanyStaff(CompanyStaff user, String confirmPassword) {
 		
-		validateUser(user, confirmPassword);
+		if (validateUser(user, confirmPassword) != null) {
+			return validateUser(user, confirmPassword);
+		}
 
 		return companyStaffService.add(user);
 	}
@@ -39,7 +41,9 @@ public class AuthManager implements AuthService {
 	@Override
 	public Result resgisterCandidate(Candidate user, String confirmPassword) {
 
-		validateUser(user, confirmPassword);
+		if (validateUser(user, confirmPassword) != null) {
+			return validateUser(user, confirmPassword);
+		}
 
 		return candidateService.add(user);
 	}
@@ -47,7 +51,9 @@ public class AuthManager implements AuthService {
 	@Override
 	public Result resgisterEmployer(Employer user, String confirmPassword) {
 
-		validateUser(user, confirmPassword);
+		if (validateUser(user, confirmPassword) != null) {
+			return validateUser(user, confirmPassword);
+		}
 
 		return employerService.add(user);
 	}

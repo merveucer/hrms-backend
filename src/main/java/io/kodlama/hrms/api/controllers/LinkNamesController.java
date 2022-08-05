@@ -44,7 +44,7 @@ public class LinkNamesController {
 		return linkNameService.getAll();
 	}
 
-	@GetMapping("getById")
+	@GetMapping("/getById")
 	public DataResult<LinkName> getById(@RequestParam int id) {
 		return linkNameService.getById(id);
 	}
